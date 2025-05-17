@@ -2151,3 +2151,18 @@ body::before {
 ::-webkit-scrollbar-thumb:hover {
     background: #b8860b;
 }
+
+
+/* Budget Table Styles: Equal Spacing */
+.budget-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.budget-table th,
+.budget-table td {
+    text-align: center;
+    width: 16.66%; /* For 6 columns */
+    padding: 10px 0;
+    word-break: break-word;
+}

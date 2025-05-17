@@ -124,5 +124,19 @@ def transactions_page():
     transactions = fetch_transactions()
     return render_template('transactions.html', transactions=transactions)
 
+@app.route('/budget')
+def budget_page():
+    budgets = [
+        {
+            'category': 'Food',
+            'month': 5,
+            'year': 2025,
+            'amount': 300,
+            'spent': 120
+        },
+        # ... more budgets ...
+    ]
+    return render_template('budget.html', budgets=budgets)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

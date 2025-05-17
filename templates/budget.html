@@ -92,96 +92,49 @@
             <div class="sidebar-overlay" id="sidebar-overlay"></div>
             <!-- Content Area -->
             <div class="content-area">
-                <!-- Dashboard Card -->
-                <div class="dashboard-card" style="width: 100%;">
-                    <div class="card-header">
-                        <h2>Wealth Dashboard</h2>
-                        <div class="header-actions">
-                            <button class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Add Offering
-                            </button>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-download"></i> Export
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Stats Overview - Temple Offerings -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Sacred Balance</h3>
-                                <p class="stat-amount">Rp 35,750,000</p>
-                                <span class="stat-change positive">
-                                    <i class="fas fa-arrow-up"></i> 12.5% from last month
-                                </span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-arrow-up"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Blessings</h3>
-                                <p class="stat-amount income">Rp 12,500,000</p>
-                                <span class="stat-change positive">
-                                    <i class="fas fa-arrow-up"></i> 8.3% from last month
-                                </span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-arrow-down"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Offerings</h3>
-                                <p class="stat-amount expense">Rp 8,750,000</p>
-                                <span class="stat-change negative">
-                                    <i class="fas fa-arrow-down"></i> 5.2% from last month
-                                </span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-piggy-bank"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>Sacred Savings</h3>
-                                <p class="stat-amount">Rp 5,000,000</p>
-                                <span class="stat-change positive">
-                                    <i class="fas fa-arrow-up"></i> 15% of income
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Budget Content Area -->
+<div class="content-area">
+    <div class="dashboard-card" style="width: 100%;">
+        <div class="card-header">
+            <h2>Budget Overview</h2>
+            <div class="header-actions">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Budget
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-download"></i> Export
+                </button>
             </div>
-            <!-- Recent Transactions -->
-            <div class="transactions-card">
-                <div class="card-header">
-                    <h2>Recent Transactions</h2>
-                    <a href="#" class="view-all">View All</a>
-                </div>
-                <div class="transactions">
-                    {% for transaction in transactions %}
-                    <div class="transaction-item">
-                        <div class="transaction-icon" style="background: {{ 'rgba(46, 125, 50, 0.5)' if transaction.type == 'income' else 'rgba(198, 40, 40, 0.5)' }}">
-                            <i class="fas fa-{{ transaction.icon }}"></i>
-                        </div>
-                        <div class="transaction-details">
-                            <div class="transaction-title">{{ transaction.title }}</div>
-                            <div class="transaction-category">{{ transaction.category }} • {{ transaction.date }}</div>
-                        </div>
-                        <div class="transaction-amount {% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}">
-                            {{ '+' if transaction.type == 'income' else '-' }}${{ "%.2f"|format(transaction.amount) }}
-                        </div>
-                    </div>
+        </div>
+        <!-- Example Budget Table -->
+        <div class="budget-table-container">
+            <table class="budget-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Month</th>
+                        <th>Year</th>
+                        <th>Budgeted Amount</th>
+                        <th>Spent</th>
+                        <th>Remaining</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for budget in budgets %}
+                    <tr>
+                        <td>{{ budget.category }}</td>
+                        <td>{{ budget.month }}</td>
+                        <td>{{ budget.year }}</td>
+                        <td>${{ "%.2f"|format(budget.amount) }}</td>
+                        <td>${{ "%.2f"|format(budget.spent) }}</td>
+                        <td>${{ "%.2f"|format(budget.amount - budget.spent) }}</td>
+                    </tr>
                     {% endfor %}
-                </div>
-            </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
         </main>
     </div>
 
