@@ -2153,6 +2153,9 @@ body::before {
 }
 
 
+
+/*NVijayS*/
+
 /* Budget Table Styles: Equal Spacing */
 .budget-table {
     width: 100%;
@@ -2165,4 +2168,62 @@ body::before {
     width: 16.66%; /* For 6 columns */
     padding: 10px 0;
     word-break: break-word;
+}
+
+/* Add Transaction Form Styles */
+.add-transaction-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+    margin-bottom: 2rem;
+}
+
+.add-transaction-form input,
+.add-transaction-form select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    min-width: 150px;
+    background: #f9f9f9;
+    transition: border-color 0.2s;
+}
+
+.add-transaction-form input:focus,
+.add-transaction-form select:focus {
+    border-color: #2a1f1e;
+}
+
+.add-transaction-form button.btn-primary {
+    background: #2a1f1e;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-transaction-form button.btn-primary:hover {
+    background: #4e342e;
+}
+
+.btn-danger {
+    background: #c62828;
+    color: #fff;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-danger:hover {
+    background: #b71c1c;
 }

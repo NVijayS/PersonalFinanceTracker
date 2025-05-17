@@ -119,10 +119,48 @@ def get_transactions():
     transactions = fetch_transactions()
     return jsonify(transactions)
 
+from flask import request, redirect, url_for
+
 @app.route('/transactions')
 def transactions_page():
     transactions = fetch_transactions()
-    return render_template('transactions.html', transactions=transactions)
+    # Get all category names
+    cursor.execute("SELECT Catname FROM categories")
+    categories = [row[0] for row in cursor.fetchall()]
+    return render_template('transactions.html', transactions=transactions, categories=categories)
+
+@app.route('/add_transaction', methods=['POST'])
+def add_transaction():
+    title = request.form['title']
+    amount = float(request.form['amount'])
+    ttype = request.form['type']
+    category_name = request.form['category']
+    date = request.form['date']
+
+    # Get Catid from categories table
+    cursor.execute("SELECT Catid FROM categories WHERE Catname = ?", (category_name,))
+    cat_row = cursor.fetchone()
+    if cat_row:
+        catid = cat_row[0]
+    else:
+        # Optionally, create the category if not found
+        cursor.execute("INSERT INTO categories (Catname, Cattype) VALUES (?, ?)", (category_name, ttype))
+        db.commit()
+        catid = cursor.lastrowid
+
+    # For demo, use Uid=1 (you can change this for real users)
+    cursor.execute(
+        "INSERT INTO transactions (Uid, amount, type, Catid, Description, date) VALUES (?, ?, ?, ?, ?, ?)",
+        (1, amount, ttype, catid, title, date)
+    )
+    db.commit()
+    return redirect(url_for('transactions_page'))
+
+@app.route('/delete_transaction/<int:tid>', methods=['POST'])
+def delete_transaction(tid):
+    cursor.execute("DELETE FROM transactions WHERE Tid = ?", (tid,))
+    db.commit()
+    return redirect(url_for('transactions_page'))
 
 @app.route('/budget')
 def budget_page():
