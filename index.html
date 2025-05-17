@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- THis index.html static is for the entire website..layout of this...while templates index html file is for dashboard-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Finance Tracker</title>
+    <!--font awesome download-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Decorative corner elements -->
+    <div class="corner-top-left"></div>
+    <div class="corner-bottom-right"></div>
+    
+    <!-- Toggle Button -->
+    <button id="sidebar-toggle" class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="app">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>KuberaVault</h3>
+                <button id="close-sidebar" class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="/dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/transactions">
+                        <i class="fas fa-exchange-alt"></i> Transactions
+                    </a>
+                </li>
+                <li>
+                    <a href="/budget">
+                        <i class="fas fa-chart-pie"></i> Budget
+                    </a>
+                </li>
+                <li>
+                    <a href="/savings">
+                        <i class="fas fa-piggy-bank"></i> Savings
+                    </a>
+                </li>
+                <li>
+                    <a href="/investments">
+                        <i class="fas fa-chart-line"></i> Investments
+                    </a>
+                </li>
+                <li>
+                    <a href="/reports">
+                        <i class="fas fa-file-alt"></i> Reports
+                    </a>
+                </li>
+                <li>
+                    <a href="/reminders">
+                        <i class="fas fa-bell"></i> Reminders
+                    </a>
+                </li>
+            </ul>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Student&background=4a6fa5&color=fff" alt="User">
+                <div class="user-info">
+                    <strong>Student</strong>
+                    <small>View Profile</small>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <a href="/settings" class="settings-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="/help" class="help-link">
+                    <i class="fas fa-question-circle"></i> Help
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Overlay -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="logo">
+                    <i class="fas fa-wallet"></i>
+                    <span>FinTrack</span>
+                </div>
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search..." id="searchInput">
+                    </div>
+                    <button id="addTransactionBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Transaction
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e3f2fd;">
+                        <i class="fas fa-wallet" style="color: #1976d2;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Total Balance</span>
+                        <h2 class="stat-amount" id="balance">$1,500.00</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e8f5e9;">
+                        <i class="fas fa-arrow-down" style="color: #2e7d32;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Income</span>
+                        <h2 class="stat-amount" style="color: #2e7d32;" id="income">$1,500.00</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #ffebee;">
+                        <i class="fas fa-arrow-up" style="color: #c62828;"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Expenses</span>
+                        <h2 class="stat-amount" style="color: #c62828;" id="expenses">$425.00</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Recent Transactions</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="transactions" id="transactions">
+                    <!-- Transactions will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        // Test script - remove after testing
+        document.addEventListener('DOMContentLoaded', function() {
+            const testButton = document.getElementById('sidebar-toggle');
+            if (testButton) {
+                testButton.addEventListener('click', function() {
+                    alert('Sidebar button clicked!');
+                    console.log('Sidebar button was clicked');
+                });
+                console.log('Test event listener added to sidebar button');
+            } else {
+                console.error('Could not find sidebar toggle button');
+            }
+        });
+    </script>
+</body>
+</html>
