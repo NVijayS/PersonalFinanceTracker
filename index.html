@@ -1,167 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- THis index.html static is for the entire website..layout of this...while templates index html file is for dashboard-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Finance Tracker</title>
-    <!--font awesome download-->
+    <title>KuberaVault - Student Finance Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
+    <meta name="theme-color" content="#2a1f1e">
+    <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
 </head>
 <body>
-    <!-- Decorative corner elements -->
-    <div class="corner-top-left"></div>
-    <div class="corner-bottom-right"></div>
-    
-    <!-- Toggle Button -->
-    <button id="sidebar-toggle" class="sidebar-toggle">
-        <i class="fas fa-bars"></i>
-    </button>
-
     <div class="app">
-        <!-- Sidebar -->
-        <nav id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <h3>KuberaVault</h3>
-                <button id="close-sidebar" class="close-sidebar">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <ul class="nav-links">
-                <li class="active">
-                    <a href="/dashboard">
-                        <i class="fas fa-home"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="/transactions">
-                        <i class="fas fa-exchange-alt"></i> Transactions
-                    </a>
-                </li>
-                <li>
-                    <a href="/budget">
-                        <i class="fas fa-chart-pie"></i> Budget
-                    </a>
-                </li>
-                <li>
-                    <a href="/savings">
-                        <i class="fas fa-piggy-bank"></i> Savings
-                    </a>
-                </li>
-                <li>
-                    <a href="/investments">
-                        <i class="fas fa-chart-line"></i> Investments
-                    </a>
-                </li>
-                <li>
-                    <a href="/reports">
-                        <i class="fas fa-file-alt"></i> Reports
-                    </a>
-                </li>
-                <li>
-                    <a href="/reminders">
-                        <i class="fas fa-bell"></i> Reminders
-                    </a>
-                </li>
-            </ul>
-            <div class="user-profile">
-                <img src="https://ui-avatars.com/api/?name=Student&background=4a6fa5&color=fff" alt="User">
-                <div class="user-info">
-                    <strong>Student</strong>
-                    <small>View Profile</small>
-                </div>
-            </div>
-            <div class="sidebar-footer">
-                <a href="/settings" class="settings-link">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-                <a href="/help" class="help-link">
-                    <i class="fas fa-question-circle"></i> Help
-                </a>
-            </div>
-        </nav>
+        <!-- Decorative Background Elements -->
+        <div class="decorative-corner tl"></div>
+        <div class="decorative-corner tr"></div>
+        <div class="decorative-corner bl"></div>
+        <div class="decorative-corner br"></div>
         
-        <!-- Overlay -->
-        <div id="sidebar-overlay" class="sidebar-overlay"></div>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="logo">
-                    <i class="fas fa-wallet"></i>
-                    <span>FinTrack</span>
+        <!-- Main Header with Logo -->
+        <header class="main-header">
+            <div class="header-container">
+                <div class="logo-container">
+                    <a href="#" class="logo flex items-center">
+                        <img 
+                            src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" 
+                            alt="KuberaVault Logo" 
+                            class="logo-img"
+                        >
+                        <span class="logo-text">KuberaVault</span>
+                    </a>
                 </div>
-                <h1>Dashboard</h1>
                 <div class="header-actions">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search..." id="searchInput">
-                    </div>
-                    <button id="addTransactionBtn" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Transaction
+                    <button id="sidebar-toggle" class="btn btn-icon">
+                        <i class="fas fa-bars"></i>
                     </button>
                 </div>
-            </header>
+            </div>
+        </header>
 
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #e3f2fd;">
-                        <i class="fas fa-wallet" style="color: #1976d2;"></i>
+        <!-- Main Content - Temple Courtyard -->
+        <main class="main-content">
+            <!-- Sidebar -->
+            <nav class="sidebar" id="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-wallet"></i>
+                            <span>Budget</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-book"></i>
+                            <span>Financial Learning</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Scholarships & Loans</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-question-circle"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-overlay" id="sidebar-overlay"></div>
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard Card -->
+                <div class="dashboard-card" style="width: 100%;">
+                    <div class="card-header">
+                        <h2>Wealth Dashboard</h2>
+                        <div class="header-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Offering
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
                     </div>
-                    <div class="stat-details">
-                        <span class="stat-label">Total Balance</span>
-                        <h2 class="stat-amount" id="balance">$1,500.00</h2>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #e8f5e9;">
-                        <i class="fas fa-arrow-down" style="color: #2e7d32;"></i>
-                    </div>
-                    <div class="stat-details">
-                        <span class="stat-label">Income</span>
-                        <h2 class="stat-amount" style="color: #2e7d32;" id="income">$1,500.00</h2>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: #ffebee;">
-                        <i class="fas fa-arrow-up" style="color: #c62828;"></i>
-                    </div>
-                    <div class="stat-details">
-                        <span class="stat-label">Expenses</span>
-                        <h2 class="stat-amount" style="color: #c62828;" id="expenses">$425.00</h2>
+
+                    <!-- Stats Overview - Temple Offerings -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Sacred Balance</h3>
+                                <p class="stat-amount">Rp 35,750,000</p>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> 12.5% from last month
+                                </span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Blessings</h3>
+                                <p class="stat-amount income">Rp 12,500,000</p>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> 8.3% from last month
+                                </span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Offerings</h3>
+                                <p class="stat-amount expense">Rp 8,750,000</p>
+                                <span class="stat-change negative">
+                                    <i class="fas fa-arrow-down"></i> 5.2% from last month
+                                </span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Sacred Savings</h3>
+                                <p class="stat-amount">Rp 5,000,000</p>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> 15% of income
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <!-- Recent Transactions -->
-            <div class="card">
+            <div class="transactions-card">
                 <div class="card-header">
                     <h2>Recent Transactions</h2>
                     <a href="#" class="view-all">View All</a>
                 </div>
-                <div class="transactions" id="transactions">
-                    <!-- Transactions will be inserted here by JavaScript -->
+                <div class="transactions">
+                    {% for transaction in transactions %}
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: {{ 'rgba(46, 125, 50, 0.5)' if transaction.type == 'income' else 'rgba(198, 40, 40, 0.5)' }}">
+                            <i class="fas fa-{{ transaction.icon }}"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <div class="transaction-title">{{ transaction.title }}</div>
+                            <div class="transaction-category">{{ transaction.category }} • {{ transaction.date }}</div>
+                        </div>
+                        <div class="transaction-amount {% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}">
+                            {{ '+' if transaction.type == 'income' else '-' }}${{ "%.2f"|format(transaction.amount) }}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="/static/js/app.js"></script>
+
+
+    <!-- JavaScript for interactivity -->
     <script>
-        // Test script - remove after testing
         document.addEventListener('DOMContentLoaded', function() {
-            const testButton = document.getElementById('sidebar-toggle');
-            if (testButton) {
-                testButton.addEventListener('click', function() {
-                    alert('Sidebar button clicked!');
-                    console.log('Sidebar button was clicked');
-                });
-                console.log('Test event listener added to sidebar button');
-            } else {
-                console.error('Could not find sidebar toggle button');
-            }
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            // Open sidebar
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('visible');
+            });
+            // Close sidebar when overlay is clicked
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('visible');
+            });
         });
     </script>
 </body>
