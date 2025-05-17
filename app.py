@@ -8,16 +8,63 @@ cursor = db.cursor()
 
 # Create table if it doesn't exist
 cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+    Uid INTEGER PRIMARY KEY AUTOINCREMENT,
+    Uname TEXT NOT NULL UNIQUE,
+    Uemail TEXT NOT NULL UNIQUE,
+    Upass TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+); 
+               ''')
+
+cursor.execute(''' 
+    CREATE TABLE IF NOT EXISTS categories (
+    Catid INTEGER PRIMARY KEY AUTOINCREMENT,
+    Catname TEXT NOT NULL,
+    Cattype TEXT NOT NULL CHECK (Cattype IN ('income', 'expense'))
+);
+               ''')
+
+
+cursor.execute('''
     CREATE TABLE IF NOT EXISTS transactions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        category TEXT,
-        amount REAL,
-        type TEXT,
-        date TEXT,
-        icon TEXT
-    )
-''')
+    Tid INTEGER PRIMARY KEY AUTOINCREMENT,
+    Uid INTEGER NOT NULL,
+    amount REAL NOT NULL,
+    type TEXT NOT NULL CHECK (type IN ('income', 'expense')),
+    Catid INTEGER,
+    Description TEXT,
+    date TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Uid) REFERENCES users(Uid) ON DELETE CASCADE,
+    FOREIGN KEY (Catid) REFERENCES categories(Catid)
+);
+                ''')
+
+
+cursor.execute(''' 
+    CREATE TABLE IF NOT EXISTS budgets (
+    Bid INTEGER PRIMARY KEY AUTOINCREMENT,
+    Uid INTEGER NOT NULL,
+    Catid INTEGER NOT NULL,
+    month INTEGER NOT NULL CHECK (month BETWEEN 1 AND 12),
+    year INTEGER NOT NULL,
+    amount REAL NOT NULL,
+    FOREIGN KEY (Uid) REFERENCES users(Uid) ON DELETE CASCADE,
+    FOREIGN KEY (Catid) REFERENCES categories(Catid)
+);
+               ''')
+
+cursor.execute(''' 
+    CREATE TABLE IF NOT EXISTS alerts (
+    Aid INTEGER PRIMARY KEY AUTOINCREMENT,
+    Uid INTEGER NOT NULL,
+    message TEXT NOT NULL,
+    is_read INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Uid) REFERENCES users(Uid) ON DELETE CASCADE
+);
+               ''')
 db.commit()
 
 app = Flask(__name__, 
