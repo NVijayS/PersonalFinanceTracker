@@ -156,6 +156,8 @@ def add_transaction():
     db.commit()
     return redirect(url_for('transactions_page'))
 
+'''unable to add categories yet. Need data in tables to check out the delete button.'''
+
 @app.route('/delete_transaction/<int:tid>', methods=['POST'])
 def delete_transaction(tid):
     cursor.execute("DELETE FROM transactions WHERE Tid = ?", (tid,))
