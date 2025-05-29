@@ -10,6 +10,89 @@
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
     <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
+    <style>
+        .header-nav .nav-links {
+            padding: 0;
+            margin: 0;
+        }
+        .header-nav .nav-item {
+            margin: 0;
+            padding: 0;
+        }
+        .header-nav .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.93rem;
+            padding: 0.4em 0.5em;
+            gap: 0.2em;
+            min-height: 54px;
+            min-width: 90px;
+            border-radius: 6px;
+            transition: background 0.15s;
+            text-align: center;
+        }
+        .header-nav .nav-link i {
+            font-size: 1.25em;
+            min-width: 1.5em;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-nav .nav-link span {
+            display: block;
+            font-size: 0.92em;
+            margin-top: 0.15em;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+        .header-nav .nav-link,
+        .header-nav .nav-link:visited {
+            line-height: 1.2;
+        }
+        .header-nav .nav-link:hover,
+        .header-nav .nav-link.active {
+            background: #f5f5f5;
+            color: #7c4d03;
+        }
+        .header-nav .nav-link.active i {
+            color: #7c4d03;
+        }
+        .header-nav .nav-link i {
+            color: #444;
+        }
+        .nav-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+        }
+        .nav-row {
+            display: flex;
+            flex-direction: row;
+            gap: 0.2em;
+            justify-content: center;
+        }
+        .logout-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 0.5em;
+        }
+        @media (max-width: 600px) {
+            .header-nav .nav-link {
+                font-size: 0.89rem;
+                padding: 0.18em 0.3em;
+                min-width: 48px;
+            }
+            .header-nav .nav-link i {
+                font-size: 1.05em;
+                min-width: 1.2em;
+                min-height: 1.2em;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="app">
@@ -24,64 +107,68 @@
                 <div class="header-nav">
                     <ul class="nav-links">
                         <li class="nav-item">
-                            <a href="/dashboard" class="nav-link active" title="Dashboard">
-                                <i class="fas fa-home" aria-label="Dashboard - Home page"></i>
+                            <a href="/dashboard" class="nav-link active" title="Dashboard" aria-label="Go to Dashboard">
+                                <i class="fas fa-home" aria-label="Dashboard"></i>
+                                <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/transactions" class="nav-link" title="Transactions">
-                                <i class="fas fa-exchange-alt" aria-label="Transactions - View and manage your financial transactions"></i>
+                            <a href="/transactions" class="nav-link" title="Transactions" aria-label="Go to Transactions">
+                                <i class="fas fa-exchange-alt" aria-label="Transactions"></i>
+                                <span>Transactions</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/financial-learning" class="nav-link" title="Financial Learning">
-                                <i class="fas fa-book-reader" aria-label="Financial Learning - Learn about personal finance and money management"></i>
+                            <a href="/budget" class="nav-link" title="Budget" aria-label="Go to Budget">
+                                <i class="fas fa-chart-pie" aria-label="Budget"></i>
+                                <span>Budget</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/budget" class="nav-link" title="Budget">
-                                <i class="fas fa-chart-pie" aria-label="Budget - Track and plan your monthly budget"></i>
+                            <a href="/financial-learning" class="nav-link" title="Financial Learning" aria-label="Go to Financial Learning">
+                                <i class="fas fa-book-reader" aria-label="Financial Learning"></i>
+                                <span>Financial Learning</span>
                             </a>
                         </li>
-
                         <li class="nav-item">
-                            <a href="/faq" class="nav-link" title="FAQ">
-                                <i class="fas fa-question-circle" aria-label="FAQ - Frequently Asked Questions about KuberaVault"></i>
+                            <a href="/scholarships-loans" class="nav-link" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
+                                <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans"></i>
+                                <span>Scholarships & Loans</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/faq" class="nav-link" title="FAQ" aria-label="Go to FAQ">
+                                <i class="fas fa-question-circle" aria-label="FAQ"></i>
+                                <span>FAQ</span>
                             </a>
                         </li>
                         {% if 'user_id' not in session %}
                         <li class="nav-item">
-                            <a href="{{ url_for('login') }}" class="nav-link" title="Login">
-                                <i class="fas fa-sign-in-alt" aria-label="Login - Sign in to your account"></i>
+                            <a href="{{ url_for('login') }}" class="nav-link" title="Login" aria-label="Go to Login">
+                                <i class="fas fa-sign-in-alt" aria-label="Login"></i>
+                                <span>Login</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url_for('register') }}" class="nav-link" title="Register">
-                                <i class="fas fa-user-plus" aria-label="Register - Create a new account"></i>
+                            <a href="{{ url_for('register') }}" class="nav-link" title="Register" aria-label="Go to Register">
+                                <i class="fas fa-user-plus" aria-label="Register"></i>
+                                <span>Register</span>
                             </a>
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a href="{{ url_for('profile') }}" class="nav-link" title="Profile">
-                                <i class="fas fa-user-circle" aria-label="Profile - Your account settings"></i>
+                            <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
+                                <i class="fas fa-user-circle" aria-label="Profile"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="nav-link" title="Logout" aria-label="Logout">
+                                <i class="fas fa-sign-out-alt" aria-label="Logout"></i>
+                                <span>Logout</span>
                             </a>
                         </li>
                         {% endif %}
-                        <li class="nav-item">
-                            <a href="/scholarships-loans" class="nav-link" title="Scholarships & Loans">
-                                <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans - Explore educational funding options"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown" style="position: relative;">
-                            <a href="#" class="nav-link" title="Profile" id="profileDropdown" onclick="event.preventDefault(); document.getElementById('profileMenu').classList.toggle('show');">
-                                <i class="fas fa-user-circle" aria-label="Profile - Manage your account settings"></i>
-                            </a>
-                            <ul id="profileMenu" class="dropdown-menu" style="display: none; position: absolute; right: 0; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border-radius: 6px; min-width: 140px; z-index: 100;">
-                                <li><a href="/profile" class="dropdown-item" style="display: block; padding: 8px 16px; color: #222; text-decoration: none;">Profile</a></li>
-                                <li><a href="/login" class="dropdown-item" style="display: block; padding: 8px 16px; color: #222; text-decoration: none;">Login</a></li>
-                                <li><a href="/register" class="dropdown-item" style="display: block; padding: 8px 16px; color: #222; text-decoration: none;">Register</a></li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -97,11 +184,11 @@
                 <h1>Dashboard</h1>
                 <div class="header-actions">
                     <div class="search-bar">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search" aria-label="Search"></i>
                         <input type="text" placeholder="Search transactions..." id="searchInput">
                     </div>
-                    <button id="addTransactionBtn" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Transaction
+                    <button id="addTransactionBtn" class="btn btn-primary" aria-label="Add Transaction">
+                        <i class="fas fa-plus" aria-label="Add"></i> Add Transaction
                     </button>
                 </div>
             </header>
@@ -116,7 +203,7 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon">
-                                <i class="fas fa-wallet" style="color: #1976d2;"></i>
+                                <i class="fas fa-wallet" style="color: #1976d2;" aria-label="Total Balance"></i>
                             </div>
                             <div class="stat-details">
                                 <span class="stat-label">Total Balance</span>
@@ -125,7 +212,7 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
-                                <i class="fas fa-arrow-down" style="color: #2e7d32;"></i>
+                                <i class="fas fa-arrow-down" style="color: #2e7d32;" aria-label="Credited Amount"></i>
                             </div>
                             <div class="stat-details">
                                 <span class="stat-label">Credited Amount</span>
@@ -134,7 +221,7 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
-                                <i class="fas fa-arrow-up" style="color: #c62828;"></i>
+                                <i class="fas fa-arrow-up" style="color: #c62828;" aria-label="Expense Amount"></i>
                             </div>
                             <div class="stat-details">
                                 <span class="stat-label">Expense Amount</span>
@@ -154,7 +241,7 @@
                         {% for transaction in transactions %}
                         <div class="transaction-item">
                             <div class="transaction-icon" style="background: {{ 'rgba(46, 125, 50, 0.5)' if transaction.type == 'income' else 'rgba(198, 40, 40, 0.5)' }}">
-                                <i class="fas {{ 'fa-arrow-down' if transaction.type == 'income' else 'fa-arrow-up' }}"></i>
+                                <i class="fas {{ 'fa-arrow-down' if transaction.type == 'income' else 'fa-arrow-up' }}" aria-label="{{ 'Income' if transaction.type == 'income' else 'Expense' }}"></i>
                             </div>
                             <div class="transaction-details">
                                 <div class="transaction-title">{{ transaction.title }}</div>

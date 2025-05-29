@@ -3,161 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KuberaVault - Student Finance Tracker</title>
+    <title>KuberaVault - Transactions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
     <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
+    <style>
+        .header-nav .nav-links {
+            padding: 0;
+            margin: 0;
+        }
+        .header-nav .nav-item {
+            margin: 0;
+            padding: 0;
+        }
+        .header-nav .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.93rem;
+            padding: 0.4em 0.5em;
+            gap: 0.2em;
+            min-height: 54px;
+            min-width: 90px;
+            border-radius: 6px;
+            transition: background 0.15s;
+            text-align: center;
+        }
+        .header-nav .nav-link i {
+            font-size: 1.25em;
+            min-width: 1.5em;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-nav .nav-link span {
+            display: block;
+            font-size: 0.92em;
+            margin-top: 0.15em;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+        .header-nav .nav-link,
+        .header-nav .nav-link:visited {
+            line-height: 1.2;
+        }
+        .header-nav .nav-link:hover,
+        .header-nav .nav-link.active {
+            background: #f5f5f5;
+            color: #7c4d03;
+        }
+        .header-nav .nav-link.active i {
+            color: #7c4d03;
+        }
+        .header-nav .nav-link i {
+            color: #444;
+        }
+        @media (max-width: 600px) {
+            .header-nav .nav-link {
+                font-size: 0.89rem;
+                padding: 0.18em 0.3em;
+                min-width: 48px;
+            }
+            .header-nav .nav-link i {
+                font-size: 1.05em;
+                min-width: 1.2em;
+                min-height: 1.2em;
+            }
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        .transactions-card {
+            margin-top: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            padding: 2rem;
+        }
+    </style>
 </head>
 <body>
     <div class="app">
-        <!-- Decorative Background Elements -->
-        <div class="decorative-corner tl"></div>
-        <div class="decorative-corner tr"></div>
-        <div class="decorative-corner bl"></div>
-        <div class="decorative-corner br"></div>
-        
-        <!-- Main Header with Logo -->
-        <header class="main-header">
+        <!-- Header -->
+        <header class="site-header">
             <div class="header-container">
                 <div class="logo-container">
-                    <a href="#" class="logo flex items-center">
-                        <img 
-                            src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" 
-                            alt="KuberaVault Logo" 
-                            class="logo-img"
-                        >
-                        <span class="logo-text">KuberaVault</span>
-                    </a>
+                    <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
+                    <h1 class="site-title">KuberaVault</h1>
                 </div>
-                <div class="header-actions">
-                    <button id="sidebar-toggle" class="btn btn-icon">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                <!-- Navigation Buttons -->
+                <div class="header-nav">
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="{{ url_for('dashboard_page') }}" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
+                                <i class="fas fa-home" aria-label="Dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('transactions_page') }}" class="nav-link active" title="Transactions" aria-label="Go to Transactions">
+                                <i class="fas fa-exchange-alt" aria-label="Transactions"></i>
+                                <span>Transactions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('budget_page') }}" class="nav-link" title="Budget" aria-label="Go to Budget">
+                                <i class="fas fa-chart-pie" aria-label="Budget"></i>
+                                <span>Budget</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/financial-learning" class="nav-link" title="Financial Learning" aria-label="Go to Financial Learning">
+                                <i class="fas fa-book-reader" aria-label="Financial Learning"></i>
+                                <span>Financial Learning</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('scholarships_loans') }}" class="nav-link" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
+                                <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans"></i>
+                                <span>Scholarships & Loans</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/faq" class="nav-link" title="FAQ" aria-label="Go to FAQ">
+                                <i class="fas fa-question-circle" aria-label="FAQ"></i>
+                                <span>FAQ</span>
+                            </a>
+                        </li>
+                        {% if 'user_id' not in session %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('login') }}" class="nav-link" title="Login" aria-label="Go to Login">
+                                <i class="fas fa-sign-in-alt" aria-label="Login"></i>
+                                <span>Login</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('register') }}" class="nav-link" title="Register" aria-label="Go to Register">
+                                <i class="fas fa-user-plus" aria-label="Register"></i>
+                                <span>Register</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
+                                <i class="fas fa-user-circle" aria-label="Profile"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="nav-link" title="Logout" aria-label="Logout">
+                                <i class="fas fa-sign-out-alt" aria-label="Logout"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content - Temple Courtyard -->
+        <!-- Decorative corner elements -->
+        <div class="corner-top-left"></div>
+        <div class="corner-bottom-right"></div>
+
+        <!-- Main Content -->
         <main class="main-content">
-            <!-- Sidebar -->
-            <nav class="sidebar" id="sidebar">
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <i class="fas fa-home"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('transactions_page') }}" class="nav-link">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>Transactions</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('budget_page') }}" class="nav-link">
-                            <i class="fas fa-wallet"></i>
-                            <span>Budget</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-book"></i>
-                            <span>Financial Learning</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span>Scholarships & Loans</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-question-circle"></i>
-                            <span>FAQ</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="sidebar-overlay" id="sidebar-overlay"></div>
-            <!-- Content Area -->
-            <div class="content-area">
-                <div class="content-header">
-                    <h1>Transactions</h1>
+            <div class="content-header">
+                <h1>Transactions</h1>
+            </div>
+            <div class="content-body">
+                <div class="filters">
+                    <select class="filter-select">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="date" class="filter-date">
+                    <button class="btn btn-secondary">Filter</button>
                 </div>
-                <div class="content-body">
-                    <div class="filters">
-                        <select class="filter-select">
-                            <option value="">All Categories</option>
-                            {% for category in categories %}
-                            <option value="{{ category }}">{{ category }}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="date" class="filter-date" placeholder="Date">
-                        <button class="btn btn-secondary">Filter</button>
-                    </div>
-                </div>
-            <!-- Recent Transactions -->
-             <form action="{{ url_for('add_transaction') }}" method="post" class="add-transaction-form">
-    <input type="text" name="title" placeholder="Title" required>
-    <input type="number" step="0.01" name="amount" placeholder="Amount" required>
-    <select name="type" required>
-        <option value="income">Income</option>
-        <option value="expense">Expense</option>
-    </select>
-    <select name="category" required>
-        {% for category in categories %}
-        <option value="{{ category }}">{{ category }}</option>
-        {% endfor %}
-    </select>
-    <input type="date" name="date" required>
-    <button type="submit" class="btn btn-primary">Add Transaction</button>
-</form>
+                <form action="{{ url_for('add_transaction') }}" method="post" class="add-transaction-form">
+                    <input type="text" name="title" placeholder="Title" required>
+                    <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+                    <select name="type" required>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                    <select name="category" required>
+                        {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="date" name="date" required>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+            </div>
             <div class="transactions-card">
                 <div class="card-header">
                     <h2>Recent Transactions</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <a href="{{ url_for('transactions_page') }}" class="view-all">View All</a>
                 </div>
-
-<div class="transactions">
-    {% for transaction in transactions %}
-    <div class="transaction-item">
-        <div class="transaction-icon" style="background: {{ 'rgba(46, 125, 50, 0.5)' if transaction.type == 'income' else 'rgba(198, 40, 40, 0.5)' }}">
-            <i class="fas fa-{{ transaction.icon }}"></i>
-        </div>
-        <div class="transaction-details">
-            <div class="transaction-title">{{ transaction.title }}</div>
-            <div class="transaction-category">{{ transaction.category }} • {{ transaction.date }}</div>
-        </div>
-        <div class="transaction-amount {% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}">
-            {{ '+' if transaction.type == 'income' else '-' }}${{ "%.2f"|format(transaction.amount) }}
-        </div>
-        <!-- Delete Button Here -->
-        <form action="{{ url_for('delete_transaction', tid=transaction.id) }}" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this transaction?');">
-                <i class="fas fa-trash"></i>
-            </button>
-        </form>
-    </div>
-    {% endfor %}
-</div>
-
+                <div class="transactions">
+                    {% for transaction in transactions %}
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: {{ 'rgba(46, 125, 50, 0.5)' if transaction.type == 'income' else 'rgba(198, 40, 40, 0.5)' }}">
+                            <i class="fas fa-{{ transaction.icon }}"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <div class="transaction-title">{{ transaction.title }}</div>
+                            <div class="transaction-category">{{ transaction.category }} • {{ transaction.date }}</div>
+                        </div>
+                        <div class="transaction-amount {% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}">
+                            {{ '+' if transaction.type == 'income' else '-' }}${{ "%.2f"|format(transaction.amount) }}
+                        </div>
+                        <form action="{{ url_for('delete_transaction', tid=transaction.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this transaction?');">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </main>
     </div>
-
-
-
     <!-- JavaScript for interactivity -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {

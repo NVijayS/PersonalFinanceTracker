@@ -7,7 +7,90 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
+    <meta name="theme-color" content="#2a1f1e">
+    <meta name="description" content="KuberaVault - Find and apply for scholarships to support your education journey">
     <style>
+        .header-nav .nav-links {
+            padding: 0;
+            margin: 0;
+        }
+        .header-nav .nav-item {
+            margin: 0;
+            padding: 0;
+        }
+        .header-nav .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.93rem;
+            padding: 0.4em 0.5em;
+            gap: 0.2em;
+            min-height: 54px;
+            min-width: 90px;
+            border-radius: 6px;
+            transition: background 0.15s;
+            text-align: center;
+        }
+        .header-nav .nav-link i {
+            font-size: 1.25em;
+            min-width: 1.5em;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-nav .nav-link span {
+            display: block;
+            font-size: 0.92em;
+            margin-top: 0.15em;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+        .header-nav .nav-link,
+        .header-nav .nav-link:visited {
+            line-height: 1.2;
+        }
+        .header-nav .nav-link:hover,
+        .header-nav .nav-link.active {
+            background: #f5f5f5;
+            color: #7c4d03;
+        }
+        .header-nav .nav-link.active i {
+            color: #7c4d03;
+        }
+        .header-nav .nav-link i {
+            color: #444;
+        }
+        @media (max-width: 600px) {
+            .header-nav .nav-link {
+                font-size: 0.89rem;
+                padding: 0.18em 0.3em;
+                min-width: 48px;
+            }
+            .header-nav .nav-link i {
+                font-size: 1.05em;
+                min-width: 1.2em;
+                min-height: 1.2em;
+            }
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        .top-bar {
+            margin-bottom: 2rem;
+            padding-top: 1.5rem;
+        }
+        .top-bar h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            color: #2a1f1e;
+            margin: 0 0 0.5em 0;
+            text-align: left;
+        }
         .scholarship-url, .loan-url {
             display: flex;
             align-items: center;
@@ -15,12 +98,10 @@
             color: #666;
             font-size: 0.9em;
         }
-        
         .scholarship-url i, .loan-url i {
             margin-right: 5px;
             color: #0066cc;
         }
-        
         .url-link {
             color: #666;
             text-decoration: none;
@@ -29,19 +110,16 @@
             max-width: 300px;
             display: inline-block;
         }
-        
         .url-link:hover {
             color: #0066cc;
             text-decoration: underline;
         }
-
         .website-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             padding: 20px;
         }
-
         .website-card {
             background: #fff;
             border-radius: 8px;
@@ -49,21 +127,17 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: transform 0.2s;
         }
-
         .website-card:hover {
             transform: translateY(-5px);
         }
-
         .website-card h3 {
             color: #333;
             margin-bottom: 10px;
         }
-
         .website-card p {
             color: #666;
             margin-bottom: 15px;
         }
-
         .website-link {
             display: inline-block;
             padding: 8px 16px;
@@ -73,14 +147,10 @@
             border-radius: 4px;
             transition: background 0.2s;
         }
-
         .website-link:hover {
             background: #0052a3;
         }
     </style>
-    <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
-    <meta name="theme-color" content="#2a1f1e">
-    <meta name="description" content="KuberaVault - Find and apply for scholarships to support your education journey">
 </head>
 <body>
     <div class="app">
@@ -95,40 +165,68 @@
                 <div class="header-nav">
                     <ul class="nav-links">
                         <li class="nav-item">
-                            <a href="/" class="nav-link" title="Dashboard">
-                                <i class="fas fa-home"></i>
+                            <a href="{{ url_for('dashboard_page') }}" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
+                                <i class="fas fa-home" aria-label="Dashboard"></i>
+                                <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/transactions" class="nav-link" title="Transactions">
-                                <i class="fas fa-exchange-alt"></i>
+                            <a href="{{ url_for('transactions_page') }}" class="nav-link" title="Transactions" aria-label="Go to Transactions">
+                                <i class="fas fa-exchange-alt" aria-label="Transactions"></i>
+                                <span>Transactions</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/financial-learning" class="nav-link" title="Financial Learning">
-                                <i class="fas fa-book-reader"></i>
+                            <a href="{{ url_for('budget_page') }}" class="nav-link" title="Budget" aria-label="Go to Budget">
+                                <i class="fas fa-chart-pie" aria-label="Budget"></i>
+                                <span>Budget</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/budget" class="nav-link" title="Budget">
-                                <i class="fas fa-chart-pie"></i>
+                            <a href="#" class="nav-link" title="Financial Learning" aria-label="Go to Financial Learning">
+                                <i class="fas fa-book-reader" aria-label="Financial Learning"></i>
+                                <span>Financial Learning</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/faq" class="nav-link" title="FAQ">
-                                <i class="fas fa-question-circle"></i>
+                            <a href="{{ url_for('scholarships_loans') }}" class="nav-link active" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
+                                <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans"></i>
+                                <span>Scholarships & Loans</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/scholarships-loans" class="nav-link active" title="Scholarships & Loans">
-                                <i class="fas fa-graduation-cap"></i>
+                            <a href="#" class="nav-link" title="FAQ" aria-label="Go to FAQ">
+                                <i class="fas fa-question-circle" aria-label="FAQ"></i>
+                                <span>FAQ</span>
+                            </a>
+                        </li>
+                        {% if 'user_id' not in session %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('login') }}" class="nav-link" title="Login" aria-label="Go to Login">
+                                <i class="fas fa-sign-in-alt" aria-label="Login"></i>
+                                <span>Login</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/profile" class="nav-link" title="Profile">
-                                <i class="fas fa-user-circle"></i>
+                            <a href="{{ url_for('register') }}" class="nav-link" title="Register" aria-label="Go to Register">
+                                <i class="fas fa-user-plus" aria-label="Register"></i>
+                                <span>Register</span>
                             </a>
                         </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
+                                <i class="fas fa-user-circle" aria-label="Profile"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="nav-link" title="Logout" aria-label="Logout">
+                                <i class="fas fa-sign-out-alt" aria-label="Logout"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -140,8 +238,10 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <header class="top-bar">
-                <h1>Scholarships & Loans</h1>
+            <header class="top-bar" style="margin-bottom:2rem;padding-top:1.5rem;">
+                <h1 style="font-family:'Merriweather',serif;font-size:2rem;color:#2a1f1e;margin:0 0 0.5em 0;text-align:left;">
+                    Scholarships & Loans
+                </h1>
             </header>
 
             <div class="scholarships-content">
