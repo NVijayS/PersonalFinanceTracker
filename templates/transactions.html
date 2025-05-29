@@ -179,29 +179,29 @@
                 <h1>Transactions</h1>
             </div>
             <div class="content-body">
-                <div class="filters">
-                    <select class="filter-select">
-                        <option value="">All Categories</option>
-                        {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="date" class="filter-date">
-                    <button class="btn btn-secondary">Filter</button>
-                </div>
-                <form action="{{ url_for('add_transaction') }}" method="post" class="add-transaction-form">
+                <form action="{{ url_for('add_transaction') }}" method="post" class="add-transaction-form" id="transactionForm">
                     <input type="text" name="title" placeholder="Title" required>
+                    <div style="color:#888; font-size:0.97em; margin-bottom:0.3em;">E.g. Grocery shopping, Tuition fee, Salary</div>
                     <input type="number" step="0.01" name="amount" placeholder="Amount" required>
-                    <select name="type" required>
+                    <div style="color:#888; font-size:0.97em; margin-bottom:0.3em;">Enter the transaction amount (e.g. 500.00)</div>
+                    <select name="type" id="typeSelect" required>
                         <option value="income">Income</option>
                         <option value="expense">Expense</option>
                     </select>
-                    <select name="category" required>
-                        {% for category in categories %}
+                    <div style="color:#888; font-size:0.97em; margin-bottom:0.3em;">Select if this is money received (Income) or spent (Expense)</div>
+                    <select name="category" id="incomeCategorySelect" required style="display:block;">
+                        {% for category in income_categories %}
                         <option value="{{ category }}">{{ category }}</option>
                         {% endfor %}
                     </select>
+                    <select name="category" id="expenseCategorySelect" required style="display:none;">
+                        {% for category in expense_categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    <div style="color:#888; font-size:0.97em; margin-bottom:0.3em;">Choose or type a category (e.g. Food, Rent, Salary)</div>
                     <input type="date" name="date" required>
+                    <div style="color:#888; font-size:0.97em; margin-bottom:0.3em;">Pick the date of the transaction</div>
                     <button type="submit" class="btn btn-primary">Add Transaction</button>
                 </form>
             </div>
@@ -221,7 +221,7 @@
                             <div class="transaction-category">{{ transaction.category }} • {{ transaction.date }}</div>
                         </div>
                         <div class="transaction-amount {% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}">
-                            {{ '+' if transaction.type == 'income' else '-' }}${{ "%.2f"|format(transaction.amount) }}
+                            {{ '+' if transaction.type == 'income' else '-' }}₹{{ "%.2f"|format(transaction.amount) }}
                         </div>
                         <form action="{{ url_for('delete_transaction', tid=transaction.id) }}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this transaction?');">
@@ -250,6 +250,29 @@
                 sidebar.classList.remove('open');
                 sidebarOverlay.classList.remove('visible');
             });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category dropdown logic
+            var typeSelect = document.getElementById('typeSelect');
+            var incomeCategorySelect = document.getElementById('incomeCategorySelect');
+            var expenseCategorySelect = document.getElementById('expenseCategorySelect');
+            function updateCategoryDropdown() {
+                if (typeSelect.value === 'income') {
+                    incomeCategorySelect.style.display = 'block';
+                    incomeCategorySelect.disabled = false;
+                    expenseCategorySelect.style.display = 'none';
+                    expenseCategorySelect.disabled = true;
+                } else {
+                    incomeCategorySelect.style.display = 'none';
+                    incomeCategorySelect.disabled = true;
+                    expenseCategorySelect.style.display = 'block';
+                    expenseCategorySelect.disabled = false;
+                }
+            }
+            if (typeSelect && incomeCategorySelect && expenseCategorySelect) {
+                typeSelect.addEventListener('change', updateCategoryDropdown);
+                updateCategoryDropdown();
+            }
         });
     </script>
 </body>

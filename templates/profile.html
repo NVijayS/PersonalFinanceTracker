@@ -3,10 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - KuberaVault</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>KuberaVault - Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
+    <meta name="theme-color" content="#2a1f1e">
+    <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
+    <style>
+        .header-nav .nav-links {
+            padding: 0;
+            margin: 0;
+        }
+        .header-nav .nav-item {
+            margin: 0;
+            padding: 0;
+        }
+        .header-nav .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.93rem;
+            padding: 0.4em 0.5em;
+            gap: 0.2em;
+            min-height: 54px;
+            min-width: 90px;
+            border-radius: 6px;
+            transition: background 0.15s;
+            text-align: center;
+        }
+        .header-nav .nav-link i {
+            font-size: 1.25em;
+            min-width: 1.5em;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-nav .nav-link span {
+            display: block;
+            font-size: 0.92em;
+            margin-top: 0.15em;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+        .header-nav .nav-link,
+        .header-nav .nav-link:visited {
+            line-height: 1.2;
+        }
+        .header-nav .nav-link:hover,
+        .header-nav .nav-link.active {
+            background: #f5f5f5;
+            color: #7c4d03;
+        }
+        .header-nav .nav-link.active i {
+            color: #7c4d03;
+        }
+        .header-nav .nav-link i {
+            color: #444;
+        }
+        @media (max-width: 600px) {
+            .header-nav .nav-link {
+                font-size: 0.89rem;
+                padding: 0.18em 0.3em;
+                min-width: 48px;
+            }
+            .header-nav .nav-link i {
+                font-size: 1.05em;
+                min-width: 1.2em;
+                min-height: 1.2em;
+            }
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        .transactions-card {
+            margin-top: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            padding: 2rem;
+        }
+    </style>
 </head>
 <body>
     <div class="app">
@@ -21,19 +102,19 @@
                 <div class="header-nav">
                     <ul class="nav-links">
                         <li class="nav-item">
-                            <a href="/dashboard" class="nav-link active" title="Dashboard" aria-label="Go to Dashboard">
+                            <a href="{{ url_for('dashboard_page') }}" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
                                 <i class="fas fa-home" aria-label="Dashboard"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/transactions" class="nav-link" title="Transactions" aria-label="Go to Transactions">
+                            <a href="{{ url_for('transactions_page') }}" class="nav-link" title="Transactions" aria-label="Go to Transactions">
                                 <i class="fas fa-exchange-alt" aria-label="Transactions"></i>
                                 <span>Transactions</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/budget" class="nav-link" title="Budget" aria-label="Go to Budget">
+                            <a href="{{ url_for('budget_page') }}" class="nav-link" title="Budget" aria-label="Go to Budget">
                                 <i class="fas fa-chart-pie" aria-label="Budget"></i>
                                 <span>Budget</span>
                             </a>
@@ -45,7 +126,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/scholarships-loans" class="nav-link" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
+                            <a href="{{ url_for('scholarships_loans') }}" class="nav-link" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
                                 <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans"></i>
                                 <span>Scholarships & Loans</span>
                             </a>
@@ -71,7 +152,7 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
+                            <a href="{{ url_for('profile') }}" class="nav-link active" title="Profile" aria-label="Go to Profile">
                                 <i class="fas fa-user-circle" aria-label="Profile"></i>
                                 <span>Profile</span>
                             </a>

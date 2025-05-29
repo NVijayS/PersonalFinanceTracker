@@ -76,7 +76,7 @@
             }
         }
         .main-content {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2.5rem 2rem 2rem 2rem;
         }
@@ -86,6 +86,31 @@
             border-radius: 12px;
             box-shadow: 0 2px 16px rgba(0,0,0,0.08);
             padding: 2rem;
+        }
+        .budget-tables-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+        }
+        .budget-table-section {
+            flex: 1 1 420px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            padding: 2rem;
+            min-width: 350px;
+        }
+        .budget-table-section h2 {
+            margin-top: 0;
+        }
+        table.budget-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.budget-table th, table.budget-table td {
+            text-align: left;
+            padding: 8px;
         }
     </style>
 </head>
@@ -120,19 +145,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" title="Financial Learning" aria-label="Go to Financial Learning">
+                            <a href="/financial-learning" class="nav-link" title="Financial Learning" aria-label="Go to Financial Learning">
                                 <i class="fas fa-book-reader" aria-label="Financial Learning"></i>
                                 <span>Financial Learning</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url_for('scholarships_loans') }}" class="nav-link active" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
+                            <a href="{{ url_for('scholarships_loans') }}" class="nav-link" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
                                 <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans"></i>
                                 <span>Scholarships & Loans</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" title="FAQ" aria-label="Go to FAQ">
+                            <a href="/faq" class="nav-link" title="FAQ" aria-label="Go to FAQ">
                                 <i class="fas fa-question-circle" aria-label="FAQ"></i>
                                 <span>FAQ</span>
                             </a>
@@ -177,37 +202,146 @@
         <main class="main-content">
             <div class="content-header">
                 <h1>Budget</h1>
+                <button id="planBudgetBtn" class="btn btn-primary" style="margin-top:1em;">
+                    <i class="fas fa-calendar-plus"></i> Plan Monthly Budget
+                </button>
             </div>
-            <div class="budget-card">
-                <h2>Your Budgets</h2>
-                {% if budgets %}
-                <table style="width:100%;border-collapse:collapse;">
-                    <thead>
-                        <tr>
-                            <th style="text-align:left;padding:8px;">Category</th>
-                            <th style="text-align:left;padding:8px;">Month</th>
-                            <th style="text-align:left;padding:8px;">Year</th>
-                            <th style="text-align:left;padding:8px;">Amount</th>
-                            <th style="text-align:left;padding:8px;">Spent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for budget in budgets %}
-                        <tr>
-                            <td style="padding:8px;">{{ budget.category }}</td>
-                            <td style="padding:8px;">{{ budget.month }}</td>
-                            <td style="padding:8px;">{{ budget.year }}</td>
-                            <td style="padding:8px;">₹{{ budget.amount }}</td>
-                            <td style="padding:8px;">₹{{ budget.spent }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>No budgets found.</p>
-                {% endif %}
+            <!-- Plan Budget Modal -->
+            <div id="planBudgetModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:1000; align-items:center; justify-content:center;">
+                <div style="background:#fff; padding:2em 2em 1.5em 2em; border-radius:10px; max-width:350px; margin:auto; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative;">
+                    <h3 style="margin-top:0;">Plan Monthly Budget</h3>
+                    <form action="{{ url_for('add_budget') }}" method="post" id="planBudgetForm">
+                        <label for="budget_type">Type</label>
+                        <select name="budget_type" id="budget_type" required style="width:100%;margin-bottom:1em;">
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                        </select>
+                        <label for="budget_category">Category</label>
+                        <select name="budget_category" id="budget_category" required style="width:100%;margin-bottom:1em;">
+                            {% for category in expense_categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="budget_month">Month</label>
+                        <select name="budget_month" id="budget_month" required style="width:100%;margin-bottom:1em;">
+                            {% for m in range(1,13) %}
+                            <option value="{{ m }}">{{ m }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="budget_year">Year</label>
+                        <input type="number" name="budget_year" id="budget_year" min="2000" max="2100" value="{{ current_year }}" required style="width:100%;margin-bottom:1em;">
+                        <label for="budget_amount">Amount (INR)</label>
+                        <input type="number" name="budget_amount" id="budget_amount" min="1" step="0.01" required style="width:100%;margin-bottom:1em;" placeholder="Enter amount in INR">
+                        <div style="color:#888; font-size:0.97em; margin-bottom:1em;">
+                            Set your planned spending for the selected category and month.
+                        </div>
+                        <div style="display:flex;justify-content:flex-end;gap:0.5em;">
+                            <button type="button" id="closePlanBudgetModal" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Budget</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="budget-tables-container">
+                <div class="budget-table-section">
+                    <h2>Expense Budgets</h2>
+                    {% set expense_budgets = budgets | selectattr('type', 'equalto', 'expense') | list %}
+                    {% if expense_budgets %}
+                    <table class="budget-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Amount</th>
+                                <th>Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for budget in expense_budgets %}
+                            <tr>
+                                <td>{{ budget.category }}</td>
+                                <td>{{ budget.month }}</td>
+                                <td>{{ budget.year }}</td>
+                                <td>₹{{ budget.amount }}</td>
+                                <td>₹{{ budget.spent }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No expense budgets found.</p>
+                    {% endif %}
+                </div>
+                <div class="budget-table-section">
+                    <h2>Income Budgets</h2>
+                    {% set income_budgets = budgets | selectattr('type', 'equalto', 'income') | list %}
+                    {% if income_budgets %}
+                    <table class="budget-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Amount</th>
+                                <th>Received</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for budget in income_budgets %}
+                            <tr>
+                                <td>{{ budget.category }}</td>
+                                <td>{{ budget.month }}</td>
+                                <td>{{ budget.year }}</td>
+                                <td>₹{{ budget.amount }}</td>
+                                <td>₹{{ budget.spent }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No income budgets found.</p>
+                    {% endif %}
+                </div>
             </div>
         </main>
     </div>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var planBudgetBtn = document.getElementById('planBudgetBtn');
+        var planBudgetModal = document.getElementById('planBudgetModal');
+        var closePlanBudgetModal = document.getElementById('closePlanBudgetModal');
+        var budgetType = document.getElementById('budget_type');
+        var budgetCategory = document.getElementById('budget_category');
+        var expenseCategories = [{% for c in expense_categories %}"{{ c }}",{% endfor %}];
+        var incomeCategories = [{% for c in income_categories %}"{{ c }}",{% endfor %}];
+        function updateCategoryOptions() {
+            var type = budgetType.value;
+            var cats = (type === 'income') ? incomeCategories : expenseCategories;
+            budgetCategory.innerHTML = '';
+            cats.forEach(function(cat) {
+                var opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                budgetCategory.appendChild(opt);
+            });
+        }
+        if (budgetType && budgetCategory) {
+            budgetType.addEventListener('change', updateCategoryOptions);
+            updateCategoryOptions();
+        }
+        if (planBudgetBtn && planBudgetModal && closePlanBudgetModal) {
+            planBudgetBtn.onclick = function() {
+                planBudgetModal.style.display = 'flex';
+            };
+            closePlanBudgetModal.onclick = function() {
+                planBudgetModal.style.display = 'none';
+            };
+            planBudgetModal.onclick = function(e) {
+                if (e.target === planBudgetModal) planBudgetModal.style.display = 'none';
+            };
+        }
+    });
+</script>

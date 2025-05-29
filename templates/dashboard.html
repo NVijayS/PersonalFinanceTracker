@@ -187,8 +187,9 @@
                         <i class="fas fa-search" aria-label="Search"></i>
                         <input type="text" placeholder="Search transactions..." id="searchInput">
                     </div>
-                    <button id="addTransactionBtn" class="btn btn-primary" aria-label="Add Transaction">
-                        <i class="fas fa-plus" aria-label="Add"></i> Add Transaction
+                    <!-- Add Category Button (opens a modal) -->
+                    <button id="addCategoryBtn" class="btn btn-secondary" aria-label="Add Category" style="margin-left: 0.5em;">
+                        <i class="fas fa-folder-plus" aria-label="Add Category"></i> Add Category
                     </button>
                 </div>
             </header>
@@ -207,7 +208,9 @@
                             </div>
                             <div class="stat-details">
                                 <span class="stat-label">Total Balance</span>
-                                <h2 class="stat-amount" id="balance">₹0.00</h2>
+                                <h2 class="stat-amount" id="balance">
+                                    ₹{{ "%.2f"|format(totals.balance) if totals else "0.00" }}
+                                </h2>
                             </div>
                         </div>
                         <div class="stat-card">
@@ -216,7 +219,9 @@
                             </div>
                             <div class="stat-details">
                                 <span class="stat-label">Credited Amount</span>
-                                <h2 class="stat-amount" style="color: #2e7d32;" id="income">₹0.00</h2>
+                                <h2 class="stat-amount" style="color: #2e7d32;" id="income">
+                                    ₹{{ "%.2f"|format(totals.income) if totals else "0.00" }}
+                                </h2>
                             </div>
                         </div>
                         <div class="stat-card">
@@ -225,7 +230,9 @@
                             </div>
                             <div class="stat-details">
                                 <span class="stat-label">Expense Amount</span>
-                                <h2 class="stat-amount" style="color: #c62828;" id="expenses">₹0.00</h2>
+                                <h2 class="stat-amount" style="color: #c62828;" id="expenses">
+                                    ₹{{ "%.2f"|format(totals.expenses) if totals else "0.00" }}
+                                </h2>
                             </div>
                         </div>
                     </div>
@@ -248,7 +255,7 @@
                                 <div class="transaction-category">{{ transaction.category }} • {{ transaction.date }}</div>
                             </div>
                             <div class="transaction-amount {% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}">
-                                {{ '+' if transaction.type == 'income' else '-' }}${{ "%.2f"|format(transaction.amount) }}
+                                {{ '+' if transaction.type == 'income' else '-' }}₹{{ "%.2f"|format(transaction.amount) }}
                             </div>
                         </div>
                         {% endfor %}
@@ -257,6 +264,31 @@
             </div>
             </main>
         </div>
+
+    <!-- Add Category Modal -->
+    <div id="addCategoryModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; padding:2em 2em 1.5em 2em; border-radius:10px; max-width:350px; margin:auto; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative;">
+            <h3 style="margin-top:0;">Add Category</h3>
+            <form action="{{ url_for('add_category') }}" method="post" id="addCategoryForm">
+                <input type="text" name="category_name" placeholder="New Category Name" required style="width:100%;margin-bottom:1em;">
+                <select name="category_type" required style="width:100%;margin-bottom:1em;">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+                <!-- Use categories for all category dropdowns if needed -->
+                <!-- Example: -->
+                <select name="category" id="dashboardCategorySelect">
+                    {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+                <div style="display:flex;justify-content:flex-end;gap:0.5em;">
+                    <button type="button" id="closeCategoryModal" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- JavaScript for interactivity -->
     <script>
@@ -286,6 +318,24 @@
                 } else if (!dropdown.contains(event.target)) {
                     dropdown.style.display = 'none';
                 }
+            }
+        });
+
+        // Add Category Modal logic
+        document.addEventListener('DOMContentLoaded', function() {
+            var addCategoryBtn = document.getElementById('addCategoryBtn');
+            var addCategoryModal = document.getElementById('addCategoryModal');
+            var closeCategoryModal = document.getElementById('closeCategoryModal');
+            if (addCategoryBtn && addCategoryModal && closeCategoryModal) {
+                addCategoryBtn.onclick = function() {
+                    addCategoryModal.style.display = 'flex';
+                };
+                closeCategoryModal.onclick = function() {
+                    addCategoryModal.style.display = 'none';
+                };
+                addCategoryModal.onclick = function(e) {
+                    if (e.target === addCategoryModal) addCategoryModal.style.display = 'none';
+                };
             }
         });
     </script>

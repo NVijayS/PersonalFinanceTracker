@@ -106,17 +106,28 @@ def calculate_totals(transactions):
         'balance': income - expenses
     }
 
-# Routes
+def fetch_categories():
+    cursor.execute("SELECT Catname, Cattype FROM categories")
+    rows = cursor.fetchall()
+    income_categories = [row[0] for row in rows if row[1] == 'income']
+    expense_categories = [row[0] for row in rows if row[1] == 'expense']
+    all_categories = [row[0] for row in rows]
+    return income_categories, expense_categories, all_categories
+
 @app.route('/')
 def index():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     transactions = fetch_transactions()
     totals = calculate_totals(transactions)
+    income_categories, expense_categories, all_categories = fetch_categories()
     return render_template('dashboard.html', 
                          transactions=transactions,
                          totals=totals,
-                         username=session.get('username'))
+                         username=session.get('username'),
+                         income_categories=income_categories,
+                         expense_categories=expense_categories,
+                         categories=all_categories)
 
 @app.route('/dashboard')
 def dashboard_page():
@@ -124,22 +135,73 @@ def dashboard_page():
         return redirect(url_for('login'))
     transactions = fetch_transactions()
     totals = calculate_totals(transactions)
+    income_categories, expense_categories, all_categories = fetch_categories()
     return render_template('dashboard.html', 
                          transactions=transactions,
                          totals=totals,
-                         username=session.get('username'))
-
-@app.route('/api/transactions')
-def get_transactions():
-    transactions = fetch_transactions()
-    return jsonify(transactions)
+                         username=session.get('username'),
+                         income_categories=income_categories,
+                         expense_categories=expense_categories,
+                         categories=all_categories)
 
 @app.route('/transactions')
 def transactions_page():
     transactions = fetch_transactions()
-    cursor.execute("SELECT Catname FROM categories")
-    categories = [row[0] for row in cursor.fetchall()]
-    return render_template('transactions.html', transactions=transactions, categories=categories)
+    income_categories, expense_categories, all_categories = fetch_categories()
+    return render_template(
+        'transactions.html',
+        transactions=transactions,
+        income_categories=income_categories,
+        expense_categories=expense_categories,
+        categories=all_categories
+    )
+
+@app.route('/budget')
+def budget_page():
+    # Fetch budgets from the database for the current user (replace 1 with session['user_id'] as needed)
+    cursor.execute("""
+        SELECT 
+            c.Catname, 
+            c.Cattype, 
+            b.month, 
+            b.year, 
+            b.amount,
+            (
+                SELECT IFNULL(SUM(t.amount), 0)
+                FROM transactions t
+                WHERE t.Catid = b.Catid
+                  AND t.type = c.Cattype
+                  AND strftime('%m', t.date) = printf('%02d', b.month)
+                  AND strftime('%Y', t.date) = CAST(b.year AS TEXT)
+                  AND t.Uid = b.Uid
+            ) as spent
+        FROM budgets b
+        JOIN categories c ON b.Catid = c.Catid
+        WHERE b.Uid = ?
+        ORDER BY b.year DESC, b.month DESC, c.Cattype, c.Catname
+    """, (1,))  # Replace 1 with session['user_id'] for real users
+    budgets = [
+        {
+            'category': row[0],
+            'type': row[1],
+            'month': row[2],
+            'year': row[3],
+            'amount': row[4],
+            'spent': row[5]
+        }
+        for row in cursor.fetchall()
+    ]
+    income_categories, expense_categories, all_categories = fetch_categories()
+    import datetime
+    current_year = datetime.datetime.now().year
+    return render_template(
+        'budget.html',
+        budgets=budgets,
+        categories=all_categories,
+        income_categories=income_categories,
+        expense_categories=expense_categories,
+        current_year=current_year
+    )
 
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
@@ -165,27 +227,39 @@ def add_transaction():
         (1, amount, ttype, catid, title, date)
     )
     db.commit()
-    return redirect(url_for('transactions_page'))
+    # Redirect to dashboard so summary is updated immediately
+    return redirect(url_for('dashboard_page'))
 
 @app.route('/delete_transaction/<int:tid>', methods=['POST'])
 def delete_transaction(tid):
     cursor.execute("DELETE FROM transactions WHERE Tid = ?", (tid,))
     db.commit()
-    return redirect(url_for('transactions_page'))
+    # Redirect to dashboard so summary is updated immediately
+    return redirect(url_for('dashboard_page'))
 
-@app.route('/budget')
-def budget_page():
-    budgets = [
-        {
-            'category': 'Food',
-            'month': 5,
-            'year': 2025,
-            'amount': 300,
-            'spent': 120
-        },
-        # ... more budgets ...
-    ]
-    return render_template('budget.html', budgets=budgets)
+@app.route('/add_budget', methods=['POST'])
+def add_budget():
+    category_name = request.form['budget_category']
+    budget_type = request.form['budget_type']
+    month = int(request.form['budget_month'])
+    year = int(request.form['budget_year'])
+    amount = float(request.form['budget_amount'])
+    # Get Catid from categories table
+    cursor.execute("SELECT Catid FROM categories WHERE Catname = ? AND Cattype = ?", (category_name, budget_type))
+    cat_row = cursor.fetchone()
+    if cat_row:
+        catid = cat_row[0]
+    else:
+        cursor.execute("INSERT INTO categories (Catname, Cattype) VALUES (?, ?)", (category_name, budget_type))
+        db.commit()
+        catid = cursor.lastrowid
+    # For demo, use Uid=1 (update for real users)
+    cursor.execute(
+        "INSERT INTO budgets (Uid, Catid, month, year, amount) VALUES (?, ?, ?, ?, ?)",
+        (1, catid, month, year, amount)
+    )
+    db.commit()
+    return redirect(url_for('budget_page'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -258,6 +332,17 @@ def require_login():
 
 # Set a secret key for sessions
 app.secret_key = 'your-secret-key-here'  # In production, use a secure random key
+
+@app.route('/add_category', methods=['POST'])
+def add_category():
+    category_name = request.form['category_name']
+    category_type = request.form['category_type']
+    # Prevent duplicate categories
+    cursor.execute("SELECT 1 FROM categories WHERE Catname = ? AND Cattype = ?", (category_name, category_type))
+    if not cursor.fetchone():
+        cursor.execute("INSERT INTO categories (Catname, Cattype) VALUES (?, ?)", (category_name, category_type))
+        db.commit()
+    return redirect(url_for('transactions_page'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
