@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - KuberaVault</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="header-container">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
+                    <h1 class="site-title">KuberaVault</h1>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="header-nav">
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link active" title="Dashboard">
+                                <i class="fas fa-home"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/transactions" class="nav-link" title="Transactions">
+                                <i class="fas fa-exchange-alt"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/financial-learning" class="nav-link" title="Financial Learning">
+                                <i class="fas fa-book-reader"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/budget" class="nav-link" title="Budget">
+                                <i class="fas fa-chart-pie"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/faq" class="nav-link" title="FAQ">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/profile" class="nav-link active" title="Profile">
+                                <i class="fas fa-user-circle"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h2>Profile Settings</h2>
+                    <div class="profile-actions">
+                        <button class="btn-save">Save Changes</button>
+                        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+                    </div>
+                </div>
+
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" value="{{ username }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{ email }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profession">Profession</label>
+                        <input type="text" id="profession" name="profession" placeholder="Enter your profession">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Enter mobile number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea id="address" name="address" placeholder="Enter your address"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pan">PAN Card Number</label>
+                        <input type="text" id="pan" name="pan" placeholder="Enter PAN card number">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

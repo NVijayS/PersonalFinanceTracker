@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarships - KuberaVault</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .scholarship-url, .loan-url {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .scholarship-url i, .loan-url i {
+            margin-right: 5px;
+            color: #0066cc;
+        }
+        
+        .url-link {
+            color: #666;
+            text-decoration: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 300px;
+            display: inline-block;
+        }
+        
+        .url-link:hover {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+
+        .website-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .website-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .website-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .website-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .website-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .website-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .website-link:hover {
+            background: #0052a3;
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
+    <meta name="theme-color" content="#2a1f1e">
+    <meta name="description" content="KuberaVault - Find and apply for scholarships to support your education journey">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="header-container">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
+                    <h1 class="site-title">KuberaVault</h1>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="header-nav">
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link" title="Dashboard">
+                                <i class="fas fa-home"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/transactions" class="nav-link" title="Transactions">
+                                <i class="fas fa-exchange-alt"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/financial-learning" class="nav-link" title="Financial Learning">
+                                <i class="fas fa-book-reader"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/budget" class="nav-link" title="Budget">
+                                <i class="fas fa-chart-pie"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/faq" class="nav-link" title="FAQ">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/scholarships-loans" class="nav-link active" title="Scholarships & Loans">
+                                <i class="fas fa-graduation-cap"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/profile" class="nav-link" title="Profile">
+                                <i class="fas fa-user-circle"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Decorative corner elements -->
+        <div class="corner-top-left"></div>
+        <div class="corner-bottom-right"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Scholarships & Loans</h1>
+            </header>
+
+            <div class="scholarships-content">
+                <!-- Scholarship Websites Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Important Scholarship Websites</h2>
+                    </div>
+                    <div class="website-list">
+                        <div class="website-card">
+                            <h3>Vidyalakshmi</h3>
+                            <p>Government of India's official scholarship portal</p>
+                            <a href="https://vidyalakshmi.org/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>AICTE Scholarship Portal</h3>
+                            <p>Scholarships for technical education</p>
+                            <a href="https://scholarships.aicte-india.org/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>UGC Scholarship Portal</h3>
+                            <p>Scholarships for higher education</p>
+                            <a href="https://scholarships.ugc.ac.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>Scholarships.gov.in</h3>
+                            <p>Central government's main scholarship portal</p>
+                            <a href="https://scholarships.gov.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>Ministry of Social Justice and Empowerment</h3>
+                            <p>Scholarships for SC/ST/OBC students</p>
+                            <a href="https://scholarships.socialjustice.nic.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>Ministry of Minority Affairs</h3>
+                            <p>Scholarships for minority students</p>
+                            <a href="https://scholarships.minorityaffairs.gov.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>Ministry of Tribal Affairs</h3>
+                            <p>Scholarships for tribal students</p>
+                            <a href="https://scholarships.tribal.nic.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>Ministry of Women and Child Development</h3>
+                            <p>Scholarships for women students</p>
+                            <a href="https://scholarships.wcd.nic.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                        <div class="website-card">
+                            <h3>Ministry of Youth Affairs and Sports</h3>
+                            <p>Sports scholarships and grants</p>
+                            <a href="https://scholarships.sports.gov.in/" target="_blank" class="website-link">Visit Website</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // Add your JavaScript code here
+    </script>
+</body>
+</html>
