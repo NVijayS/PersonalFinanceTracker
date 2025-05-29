@@ -78,7 +78,7 @@
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2.5rem 2rem 2rem 2rem;
+            padding: 5.5rem 2rem 2rem 2rem; /* Increased top padding */
         }
         .budget-card {
             margin-top: 2rem;
@@ -254,7 +254,6 @@
                                 <th>Month</th>
                                 <th>Year</th>
                                 <th>Amount</th>
-                                <th>Spent</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -264,7 +263,6 @@
                                 <td>{{ budget.month }}</td>
                                 <td>{{ budget.year }}</td>
                                 <td>₹{{ budget.amount }}</td>
-                                <td>₹{{ budget.spent }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -284,7 +282,6 @@
                                 <th>Month</th>
                                 <th>Year</th>
                                 <th>Amount</th>
-                                <th>Received</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -294,7 +291,6 @@
                                 <td>{{ budget.month }}</td>
                                 <td>{{ budget.year }}</td>
                                 <td>₹{{ budget.amount }}</td>
-                                <td>₹{{ budget.spent }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

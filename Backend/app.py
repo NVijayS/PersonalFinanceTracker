@@ -158,7 +158,7 @@ def transactions_page():
 
 @app.route('/budget')
 def budget_page():
-    # Fetch budgets from the database for the current user (replace 1 with session['user_id'] as needed)
+    # Fetch budgets and calculate spent/received from transactions for the current user (replace 1 with session['user_id'] as needed)
     cursor.execute("""
         SELECT 
             c.Catname, 
@@ -170,11 +170,20 @@ def budget_page():
                 SELECT IFNULL(SUM(t.amount), 0)
                 FROM transactions t
                 WHERE t.Catid = b.Catid
-                  AND t.type = c.Cattype
+                  AND t.type = 'expense'
                   AND strftime('%m', t.date) = printf('%02d', b.month)
                   AND strftime('%Y', t.date) = CAST(b.year AS TEXT)
                   AND t.Uid = b.Uid
-            ) as spent
+            ) as spent,
+            (
+                SELECT IFNULL(SUM(t.amount), 0)
+                FROM transactions t
+                WHERE t.Catid = b.Catid
+                  AND t.type = 'income'
+                  AND strftime('%m', t.date) = printf('%02d', b.month)
+                  AND strftime('%Y', t.date) = CAST(b.year AS TEXT)
+                  AND t.Uid = b.Uid
+            ) as received
         FROM budgets b
         JOIN categories c ON b.Catid = c.Catid
         WHERE b.Uid = ?
@@ -187,7 +196,8 @@ def budget_page():
             'month': row[2],
             'year': row[3],
             'amount': row[4],
-            'spent': row[5]
+            'spent': row[5],
+            'received': row[6]
         }
         for row in cursor.fetchall()
     ]
