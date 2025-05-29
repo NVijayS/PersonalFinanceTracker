@@ -354,5 +354,9 @@ def add_category():
         db.commit()
     return redirect(url_for('transactions_page'))
 
+@app.route('/faq')
+def faq_page():
+    return render_template('faq.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
