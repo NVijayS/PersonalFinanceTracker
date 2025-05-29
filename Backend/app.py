@@ -331,6 +331,10 @@ def logout():
 def scholarships_loans():
     return render_template('scholarships.html')
 
+@app.route('/financial-learning')
+def financial_learning():
+    return render_template('financial-learning.html')
+
 @app.before_request
 def require_login():
     allowed_routes = {'login', 'register', 'static'}

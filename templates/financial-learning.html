@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KuberaVault - Financial Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
+    <meta name="theme-color" content="#2a1f1e">
+    <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
+    <style>
+        .header-nav .nav-links {
+            padding: 0;
+            margin: 0;
+        }
+        .header-nav .nav-item {
+            margin: 0;
+            padding: 0;
+        }
+        .header-nav .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.93rem;
+            padding: 0.4em 0.5em;
+            gap: 0.2em;
+            min-height: 54px;
+            min-width: 90px;
+            border-radius: 6px;
+            transition: background 0.15s;
+            text-align: center;
+        }
+        .header-nav .nav-link i {
+            font-size: 1.25em;
+            min-width: 1.5em;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-nav .nav-link span {
+            display: block;
+            font-size: 0.92em;
+            margin-top: 0.15em;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+        .header-nav .nav-link,
+        .header-nav .nav-link:visited {
+            line-height: 1.2;
+        }
+        .header-nav .nav-link:hover,
+        .header-nav .nav-link.active {
+            background: #f5f5f5;
+            color: #7c4d03;
+        }
+        .header-nav .nav-link.active i {
+            color: #7c4d03;
+        }
+        .header-nav .nav-link i {
+            color: #444;
+        }
+        .nav-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+        }
+        .nav-row {
+            display: flex;
+            flex-direction: row;
+            gap: 0.2em;
+            justify-content: center;
+        }
+        .logout-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 0.5em;
+        }
+        @media (max-width: 600px) {
+            .header-nav .nav-link {
+                font-size: 0.89rem;
+                padding: 0.18em 0.3em;
+                min-width: 48px;
+            }
+            .header-nav .nav-link i {
+                font-size: 1.05em;
+                min-width: 1.2em;
+                min-height: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="header-container">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
+                    <h1 class="site-title">KuberaVault</h1>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="header-nav">
+                    <ul class="nav-links">
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
+                                <i class="fas fa-home" aria-label="Dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/transactions" class="nav-link" title="Transactions" aria-label="Go to Transactions">
+                                <i class="fas fa-exchange-alt" aria-label="Transactions"></i>
+                                <span>Transactions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/budget" class="nav-link" title="Budget" aria-label="Go to Budget">
+                                <i class="fas fa-chart-pie" aria-label="Budget"></i>
+                                <span>Budget</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/financial-learning" class="nav-link active" title="Financial Learning" aria-label="Go to Financial Learning">
+                                <i class="fas fa-book-reader" aria-label="Financial Learning"></i>
+                                <span>Financial Learning</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/scholarships-loans" class="nav-link" title="Scholarships & Loans" aria-label="Go to Scholarships and Loans">
+                                <i class="fas fa-graduation-cap" aria-label="Scholarships & Loans"></i>
+                                <span>Scholarships & Loans</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('faq_page') }}" class="nav-link" title="FAQ" aria-label="Go to FAQ">
+                                <i class="fas fa-question-circle" aria-label="FAQ"></i>
+                                <span>FAQ</span>
+                            </a>
+                        </li>
+                        {% if 'user_id' not in session %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('login') }}" class="nav-link" title="Login" aria-label="Go to Login">
+                                <i class="fas fa-sign-in-alt" aria-label="Login"></i>
+                                <span>Login</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('register') }}" class="nav-link" title="Register" aria-label="Go to Register">
+                                <i class="fas fa-user-plus" aria-label="Register"></i>
+                                <span>Register</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
+                                <i class="fas fa-user-circle" aria-label="Profile"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="nav-link" title="Logout" aria-label="Logout">
+                                <i class="fas fa-sign-out-alt" aria-label="Logout"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <main class="learning-container" style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.08); max-width:900px; margin:5rem auto 2rem auto; padding:2.5rem 2rem;">
+            <div class="learning-title" style="font-family:'Merriweather',serif; font-size:2.2rem; color:#2a1f1e; margin-bottom:1.5rem;">
+                Financial Learning for Students
+            </div>
+            <ul class="learning-list" style="list-style:none; padding:0;">
+                <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
+                    <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
+                        <iframe width="320" height="180" src="https://www.youtube.com/embed/6r3Xb6kQp6w" title="How to Manage Money as a Student | Basic Money Management Tips" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="learning-desc" style="flex:1 1 auto;">
+                        <h3 style="margin:0 0 0.5em 0; color:#7c4d03;">How to Manage Money as a Student | Basic Money Management Tips</h3>
+                        <p style="margin:0 0 0.5em 0; color:#333;">Learn practical money management tips for students in India, including budgeting, saving, and smart spending.</p>
+                        <a href="https://www.youtube.com/watch?v=6r3Xb6kQp6w" target="_blank">Watch on YouTube</a>
+                    </div>
+                </li>
+                <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
+                    <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
+                        <iframe width="320" height="180" src="https://www.youtube.com/embed/0nq6FQwzGdY" title="How to Save Money as a Student in India | College Student Budgeting" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="learning-desc" style="flex:1 1 auto;">
+                        <h3 style="margin:0 0 0.5em 0; color:#7c4d03;">How to Save Money as a Student in India | College Student Budgeting</h3>
+                        <p style="margin:0 0 0.5em 0; color:#333;">Discover actionable ways to save money on a student budget in India, including tips on cutting unnecessary expenses and maximizing your savings.</p>
+                        <a href="https://www.youtube.com/watch?v=0nq6FQwzGdY" target="_blank">Watch on YouTube</a>
+                    </div>
+                </li>
+                <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
+                    <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
+                        <iframe width="320" height="180" src="https://www.youtube.com/embed/4mQG9Wqf1gk" title="Personal Finance for Students | Indian Context" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="learning-desc" style="flex:1 1 auto;">
+                        <h3 style="margin:0 0 0.5em 0; color:#7c4d03;">Personal Finance for Students | Indian Context</h3>
+                        <p style="margin:0 0 0.5em 0; color:#333;">This video explains the basics of personal finance for Indian students, including budgeting, saving, and understanding credit.</p>
+                        <a href="https://www.youtube.com/watch?v=4mQG9Wqf1gk" target="_blank">Watch on YouTube</a>
+                    </div>
+                </li>
+                <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
+                    <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
+                        <iframe width="320" height="180" src="https://www.youtube.com/embed/2yQ6g9A3pIg" title="How to Budget as a Student" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="learning-desc" style="flex:1 1 auto;">
+                        <h3 style="margin:0 0 0.5em 0; color:#7c4d03;">How to Budget as a Student</h3>
+                        <p style="margin:0 0 0.5em 0; color:#333;">Step-by-step guide to creating a student budget, tracking expenses, and making your money last throughout the semester.</p>
+                        <a href="https://www.youtube.com/watch?v=2yQ6g9A3pIg" target="_blank">Watch on YouTube</a>
+                    </div>
+                </li>
+            </ul>
+        </main>
+    </div>
+</body>
+</html>
