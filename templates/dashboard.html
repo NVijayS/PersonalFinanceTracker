@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuberaVault - Student Finance Tracker</title>
+    <!-- Font Awesome and Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
     <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
     <style>
+        /* Header navigation styles */
         .header-nav .nav-links {
             padding: 0;
             margin: 0;
@@ -96,16 +100,17 @@
 </head>
 <body>
     <div class="app">
-        <!-- Header -->
+        <!-- Header section with logo and navigation -->
         <header class="site-header">
             <div class="header-container">
                 <div class="logo-container">
                     <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
                     <h1 class="site-title">KuberaVault</h1>
                 </div>
-                <!-- Navigation Buttons -->
+                <!-- Navigation bar -->
                 <div class="header-nav">
                     <ul class="nav-links">
+                        <!-- Navigation links for each page -->
                         <li class="nav-item">
                             <a href="/dashboard" class="nav-link active" title="Dashboard" aria-label="Go to Dashboard">
                                 <i class="fas fa-home" aria-label="Dashboard"></i>
@@ -143,6 +148,7 @@
                             </a>
                         </li>
                         {% if 'user_id' not in session %}
+                        <!-- Show login/register if not logged in -->
                         <li class="nav-item">
                             <a href="{{ url_for('login') }}" class="nav-link" title="Login" aria-label="Go to Login">
                                 <i class="fas fa-sign-in-alt" aria-label="Login"></i>
@@ -156,6 +162,7 @@
                             </a>
                         </li>
                         {% else %}
+                        <!-- Show profile/logout if logged in -->
                         <li class="nav-item">
                             <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
                                 <i class="fas fa-user-circle" aria-label="Profile"></i>
@@ -174,11 +181,11 @@
             </div>
         </header>
 
-        <!-- Decorative corner elements -->
+        <!-- Decorative corner elements for style -->
         <div class="corner-top-left"></div>
         <div class="corner-bottom-right"></div>
 
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="main-content">
             <header class="top-bar">
                 <h1>Dashboard</h1>
@@ -292,6 +299,7 @@
 
     <!-- JavaScript for interactivity -->
     <script>
+        // Sidebar toggle logic (if sidebar exists)
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarToggle = document.getElementById('sidebar-toggle');
             const sidebar = document.getElementById('sidebar');

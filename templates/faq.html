@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuberaVault - FAQ</title>
+    <!-- Font Awesome and Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
     <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
     <style>
+        /* Header navigation styles */
         .header-nav .nav-links {
             padding: 0;
             margin: 0;
@@ -96,16 +100,17 @@
 </head>
 <body>
     <div class="app">
-        <!-- Header -->
+        <!-- Header section with logo and navigation -->
         <header class="site-header">
             <div class="header-container">
                 <div class="logo-container">
                     <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
                     <h1 class="site-title">KuberaVault</h1>
                 </div>
-                <!-- Navigation Buttons -->
+                <!-- Navigation bar -->
                 <div class="header-nav">
                     <ul class="nav-links">
+                        <!-- Navigation links for each page -->
                         <li class="nav-item">
                             <a href="/dashboard" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
                                 <i class="fas fa-home" aria-label="Dashboard"></i>
@@ -173,31 +178,38 @@
                 </div>
             </div>
         </header>
+        <!-- Main FAQ content area -->
         <main class="faq-container" style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.08); max-width:900px; margin:5rem auto 2rem auto; padding:2.5rem 2rem;">
             <div class="faq-title" style="font-family:'Merriweather',serif; font-size:2.2rem; color:#2a1f1e; margin-bottom:1.5rem;">
                 Frequently Asked Questions
             </div>
             <ul class="faq-list" style="margin:0; padding:0; list-style:none;">
+                <!-- FAQ item 1 -->
                 <li class="faq-item" style="margin-bottom:1.5rem;">
                     <div class="faq-question" style="font-weight:bold; color:#7c4d03; margin-bottom:0.5em;">What is KuberaVault?</div>
                     <div class="faq-answer" style="color:#333; margin-left:1em;">KuberaVault is a personal finance tracker for students to manage income, expenses, budgets, and more.</div>
                 </li>
+                <!-- FAQ item 2 -->
                 <li class="faq-item" style="margin-bottom:1.5rem;">
                     <div class="faq-question" style="font-weight:bold; color:#7c4d03; margin-bottom:0.5em;">How do I add a new transaction?</div>
                     <div class="faq-answer" style="color:#333; margin-left:1em;">Go to the Transactions page and fill out the form to add a new income or expense.</div>
                 </li>
+                <!-- FAQ item 3 -->
                 <li class="faq-item" style="margin-bottom:1.5rem;">
                     <div class="faq-question" style="font-weight:bold; color:#7c4d03; margin-bottom:0.5em;">How can I plan my monthly budget?</div>
                     <div class="faq-answer" style="color:#333; margin-left:1em;">Visit the Budget page and use the "Plan Monthly Budget" button to set your budget for each category.</div>
                 </li>
+                <!-- FAQ item 4 -->
                 <li class="faq-item" style="margin-bottom:1.5rem;">
                     <div class="faq-question" style="font-weight:bold; color:#7c4d03; margin-bottom:0.5em;">Can I add my own categories?</div>
                     <div class="faq-answer" style="color:#333; margin-left:1em;">Yes, use the "Add Category" button on the Dashboard to create new income or expense categories.</div>
                 </li>
+                <!-- FAQ item 5 -->
                 <li class="faq-item" style="margin-bottom:1.5rem;">
                     <div class="faq-question" style="font-weight:bold; color:#7c4d03; margin-bottom:0.5em;">Is my data secure?</div>
                     <div class="faq-answer" style="color:#333; margin-left:1em;">Your data is stored locally and only accessible to you. For best security, always log out after use.</div>
                 </li>
+                <!-- FAQ item 6 -->
                 <li class="faq-item" style="margin-bottom:1.5rem;">
                     <div class="faq-question" style="font-weight:bold; color:#7c4d03; margin-bottom:0.5em;">Who can I contact for support?</div>
                     <div class="faq-answer" style="color:#333; margin-left:1em;">Please use the contact form on the main website or email the support team for help.</div>

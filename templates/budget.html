@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuberaVault - Budget</title>
+    <!-- Font Awesome and Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
     <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
     <style>
+        /* Header navigation styles */
         .header-nav .nav-links {
             padding: 0;
             margin: 0;
@@ -75,6 +79,7 @@
                 min-height: 1.2em;
             }
         }
+        /* Main content and budget card styles */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -116,16 +121,17 @@
 </head>
 <body>
     <div class="app">
-        <!-- Header -->
+        <!-- Header section with logo and navigation -->
         <header class="site-header">
             <div class="header-container">
                 <div class="logo-container">
                     <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
                     <h1 class="site-title">KuberaVault</h1>
                 </div>
-                <!-- Navigation Buttons -->
+                <!-- Navigation bar -->
                 <div class="header-nav">
                     <ul class="nav-links">
+                        <!-- Navigation links for each page -->
                         <li class="nav-item">
                             <a href="{{ url_for('dashboard_page') }}" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
                                 <i class="fas fa-home" aria-label="Dashboard"></i>
@@ -194,22 +200,24 @@
             </div>
         </header>
 
-        <!-- Decorative corner elements -->
+        <!-- Decorative corner elements for style -->
         <div class="corner-top-left"></div>
         <div class="corner-bottom-right"></div>
 
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="main-content">
             <div class="content-header">
                 <h1>Budget</h1>
+                <!-- Button to open the Plan Budget modal -->
                 <button id="planBudgetBtn" class="btn btn-primary" style="margin-top:1em;">
                     <i class="fas fa-calendar-plus"></i> Plan Monthly Budget
                 </button>
             </div>
-            <!-- Plan Budget Modal -->
+            <!-- Plan Budget Modal (hidden by default) -->
             <div id="planBudgetModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:1000; align-items:center; justify-content:center;">
                 <div style="background:#fff; padding:2em 2em 1.5em 2em; border-radius:10px; max-width:350px; margin:auto; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative;">
                     <h3 style="margin-top:0;">Plan Monthly Budget</h3>
+                    <!-- Form to add a new budget -->
                     <form action="{{ url_for('add_budget') }}" method="post" id="planBudgetForm">
                         <label for="budget_type">Type</label>
                         <select name="budget_type" id="budget_type" required style="width:100%;margin-bottom:1em;">
@@ -242,6 +250,7 @@
                     </form>
                 </div>
             </div>
+            <!-- Budget tables for expenses and income -->
             <div class="budget-tables-container">
                 <div class="budget-table-section">
                     <h2>Expense Budgets</h2>
@@ -305,14 +314,17 @@
 </body>
 </html>
 <script>
+    // JavaScript for modal and dynamic category dropdown
     document.addEventListener('DOMContentLoaded', function() {
         var planBudgetBtn = document.getElementById('planBudgetBtn');
         var planBudgetModal = document.getElementById('planBudgetModal');
         var closePlanBudgetModal = document.getElementById('closePlanBudgetModal');
         var budgetType = document.getElementById('budget_type');
         var budgetCategory = document.getElementById('budget_category');
+        // Get categories from template context
         var expenseCategories = [{% for c in expense_categories %}"{{ c }}",{% endfor %}];
         var incomeCategories = [{% for c in income_categories %}"{{ c }}",{% endfor %}];
+        // Update category dropdown based on type
         function updateCategoryOptions() {
             var type = budgetType.value;
             var cats = (type === 'income') ? incomeCategories : expenseCategories;
@@ -328,6 +340,7 @@
             budgetType.addEventListener('change', updateCategoryOptions);
             updateCategoryOptions();
         }
+        // Modal open/close logic
         if (planBudgetBtn && planBudgetModal && closePlanBudgetModal) {
             planBudgetBtn.onclick = function() {
                 planBudgetModal.style.display = 'flex';

@@ -1,12 +1,14 @@
+# Import necessary modules from Flask and standard libraries
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session, flash
 import sqlite3
 import os
 
-# SQLite connection setup
+# SQLite connection setup (single connection for the app)
 db = sqlite3.connect('finance.db', check_same_thread=False)
 cursor = db.cursor()
 
 # Create tables if they don't exist
+# Users table: stores user credentials and info
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         Uid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,6 +18,7 @@ cursor.execute('''
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
     );
 ''')
+# Categories table: stores income/expense categories
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS categories (
         Catid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,6 +26,7 @@ cursor.execute('''
         Cattype TEXT NOT NULL CHECK (Cattype IN ('income', 'expense'))
     );
 ''')
+# Transactions table: stores all user transactions
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS transactions (
         Tid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,6 +41,7 @@ cursor.execute('''
         FOREIGN KEY (Catid) REFERENCES categories(Catid)
     );
 ''')
+# Budgets table: stores user budgets per category/month/year
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS budgets (
         Bid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,6 +54,7 @@ cursor.execute('''
         FOREIGN KEY (Catid) REFERENCES categories(Catid)
     );
 ''')
+# Alerts table: stores user alerts/notifications
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS alerts (
         Aid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,15 +65,17 @@ cursor.execute('''
         FOREIGN KEY (Uid) REFERENCES users(Uid) ON DELETE CASCADE
     );
 ''')
+# Commit table creation
 db.commit()
 
+# Initialize Flask app with custom template and static folders
 app = Flask(
     __name__,
     template_folder=os.path.join(os.path.dirname(__file__), '../templates'),
     static_folder=os.path.join(os.path.dirname(__file__), '../static')
 )
 
-# Helper functions
+# Helper function to fetch all transactions from the database
 def fetch_transactions():
     cursor.execute("""
         SELECT 
@@ -83,6 +91,7 @@ def fetch_transactions():
         ORDER BY t.date DESC
     """)
     rows = cursor.fetchall()
+    # Build a list of transaction dictionaries
     transactions = [
         {
             'id': row[0],
@@ -91,12 +100,13 @@ def fetch_transactions():
             'amount': row[3],
             'type': row[4],
             'date': row[5],
-            'icon': row[6]  # You can add logic for icons if needed
+            'icon': row[6]  # Placeholder for icon logic
         }
         for row in rows
     ]
     return transactions
 
+# Helper function to calculate total income, expenses, and balance
 def calculate_totals(transactions):
     income = sum(t['amount'] for t in transactions if t['type'] == 'income')
     expenses = sum(t['amount'] for t in transactions if t['type'] == 'expense')
@@ -106,6 +116,7 @@ def calculate_totals(transactions):
         'balance': income - expenses
     }
 
+# Helper function to fetch all categories, grouped by type
 def fetch_categories():
     cursor.execute("SELECT Catname, Cattype FROM categories")
     rows = cursor.fetchall()
@@ -114,13 +125,16 @@ def fetch_categories():
     all_categories = [row[0] for row in rows]
     return income_categories, expense_categories, all_categories
 
+# Home page route (dashboard)
 @app.route('/')
 def index():
+    # Redirect to login if user not logged in
     if 'user_id' not in session:
         return redirect(url_for('login'))
     transactions = fetch_transactions()
     totals = calculate_totals(transactions)
     income_categories, expense_categories, all_categories = fetch_categories()
+    # Render dashboard template with data
     return render_template('dashboard.html', 
                          transactions=transactions,
                          totals=totals,
@@ -129,6 +143,7 @@ def index():
                          expense_categories=expense_categories,
                          categories=all_categories)
 
+# Dashboard page route (duplicate of index for direct access)
 @app.route('/dashboard')
 def dashboard_page():
     if 'user_id' not in session:
@@ -144,6 +159,7 @@ def dashboard_page():
                          expense_categories=expense_categories,
                          categories=all_categories)
 
+# Transactions page route
 @app.route('/transactions')
 def transactions_page():
     transactions = fetch_transactions()
@@ -156,6 +172,7 @@ def transactions_page():
         categories=all_categories
     )
 
+# Budget page route
 @app.route('/budget')
 def budget_page():
     # Fetch budgets and calculate spent/received from transactions for the current user (replace 1 with session['user_id'] as needed)
@@ -213,6 +230,7 @@ def budget_page():
         current_year=current_year
     )
 
+# Route to add a new transaction
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
     title = request.form['title']
@@ -221,7 +239,7 @@ def add_transaction():
     category_name = request.form['category']
     date = request.form['date']
 
-    # Get Catid from categories table
+    # Get Catid from categories table, or create if not exists
     cursor.execute("SELECT Catid FROM categories WHERE Catname = ?", (category_name,))
     cat_row = cursor.fetchone()
     if cat_row:
@@ -240,6 +258,7 @@ def add_transaction():
     # Redirect to dashboard so summary is updated immediately
     return redirect(url_for('dashboard_page'))
 
+# Route to delete a transaction by ID
 @app.route('/delete_transaction/<int:tid>', methods=['POST'])
 def delete_transaction(tid):
     cursor.execute("DELETE FROM transactions WHERE Tid = ?", (tid,))
@@ -247,6 +266,7 @@ def delete_transaction(tid):
     # Redirect to dashboard so summary is updated immediately
     return redirect(url_for('dashboard_page'))
 
+# Route to add a new budget
 @app.route('/add_budget', methods=['POST'])
 def add_budget():
     category_name = request.form['budget_category']
@@ -254,7 +274,7 @@ def add_budget():
     month = int(request.form['budget_month'])
     year = int(request.form['budget_year'])
     amount = float(request.form['budget_amount'])
-    # Get Catid from categories table
+    # Get Catid from categories table, or create if not exists
     cursor.execute("SELECT Catid FROM categories WHERE Catname = ? AND Cattype = ?", (category_name, budget_type))
     cat_row = cursor.fetchone()
     if cat_row:
@@ -271,6 +291,7 @@ def add_budget():
     db.commit()
     return redirect(url_for('budget_page'))
 
+# Login route (GET and POST)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -278,6 +299,7 @@ def login():
         password = request.form['password']
         cursor.execute('SELECT Uid, Uname, Upass FROM users WHERE Uname = ?', (username,))
         user = cursor.fetchone()
+        # Check if user exists and password matches
         if user and user[2] == password:
             session['user_id'] = user[0]
             session['username'] = user[1]
@@ -287,6 +309,7 @@ def login():
             flash('Invalid username or password', 'error')
     return render_template('login.html', login_bg='loginbg.jpg')
 
+# Registration route (GET and POST)
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -303,6 +326,7 @@ def register():
             flash('Username or email already exists', 'error')
     return render_template('register.html', register_bg='registerbg.jpg')
 
+# Profile page route (GET and POST)
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user_id' not in session:
@@ -321,20 +345,24 @@ def profile():
     user = cursor.fetchone()
     return render_template('profile.html', username=user[0], email=user[1])
 
+# Logout route
 @app.route('/logout')
 def logout():
     session.clear()
     flash('You have been logged out', 'info')
     return redirect(url_for('login'))
 
+# Scholarships and loans info page
 @app.route('/scholarships-loans')
 def scholarships_loans():
     return render_template('scholarships.html')
 
+# Financial learning resources page
 @app.route('/financial-learning')
 def financial_learning():
     return render_template('financial-learning.html')
 
+# Before each request, require login for protected routes
 @app.before_request
 def require_login():
     allowed_routes = {'login', 'register', 'static'}
@@ -344,9 +372,10 @@ def require_login():
     if (request.endpoint not in allowed_routes and not request.endpoint.startswith('static')) and 'user_id' not in session:
         return redirect(url_for('login'))
 
-# Set a secret key for sessions
+# Set a secret key for sessions (should be random and secure in production)
 app.secret_key = 'your-secret-key-here'  # In production, use a secure random key
 
+# Route to add a new category
 @app.route('/add_category', methods=['POST'])
 def add_category():
     category_name = request.form['category_name']
@@ -358,9 +387,11 @@ def add_category():
         db.commit()
     return redirect(url_for('transactions_page'))
 
+# FAQ page route
 @app.route('/faq')
 def faq_page():
     return render_template('faq.html')
 
+# Run the Flask app if this file is executed directly
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

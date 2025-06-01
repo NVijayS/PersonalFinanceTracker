@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <title>Register - KuberaVault</title>
+    <!-- Link to registration CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
 </head>
 <body class="login-register-container">
     <div class="container">
+        <!-- App title -->
         <div class="title">
-        <h3><b>~~~KUBERA VAULT~~~</b></h3>
+            <h3><b>~~~KUBERA VAULT~~~</b></h3>
         </div>
+        <!-- Registration heading -->
         <h2>Register and Begin your journey to financial enlightenment</h2>
 
+        <!-- Flash messages for registration errors/success -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <div class="messages">
@@ -22,6 +27,7 @@
           {% endif %}
         {% endwith %}
 
+        <!-- Registration form -->
         <form method="POST" action="{{ url_for('register') }}">
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>
@@ -29,6 +35,7 @@
             <button type="submit">Register</button>
         </form>
 
+        <!-- Link to login page if already registered -->
         <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
     </div>
 </body>

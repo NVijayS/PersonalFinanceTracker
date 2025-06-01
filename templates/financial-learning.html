@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuberaVault - Financial Learning</title>
+    <!-- Font Awesome and Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
     <meta name="description" content="KuberaVault - Manage your student finances with the wisdom of Kubera, the Hindu god of wealth.">
     <style>
+        /* Header navigation styles */
         .header-nav .nav-links {
             padding: 0;
             margin: 0;
@@ -96,16 +100,17 @@
 </head>
 <body>
     <div class="app">
-        <!-- Header -->
+        <!-- Header section with logo and navigation -->
         <header class="site-header">
             <div class="header-container">
                 <div class="logo-container">
                     <img src="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" alt="KuberaVault Logo" class="site-logo">
                     <h1 class="site-title">KuberaVault</h1>
                 </div>
-                <!-- Navigation Buttons -->
+                <!-- Navigation bar -->
                 <div class="header-nav">
                     <ul class="nav-links">
+                        <!-- Navigation links for each page -->
                         <li class="nav-item">
                             <a href="/dashboard" class="nav-link" title="Dashboard" aria-label="Go to Dashboard">
                                 <i class="fas fa-home" aria-label="Dashboard"></i>
@@ -143,6 +148,7 @@
                             </a>
                         </li>
                         {% if 'user_id' not in session %}
+                        <!-- Show login/register if not logged in -->
                         <li class="nav-item">
                             <a href="{{ url_for('login') }}" class="nav-link" title="Login" aria-label="Go to Login">
                                 <i class="fas fa-sign-in-alt" aria-label="Login"></i>
@@ -156,6 +162,7 @@
                             </a>
                         </li>
                         {% else %}
+                        <!-- Show profile/logout if logged in -->
                         <li class="nav-item">
                             <a href="{{ url_for('profile') }}" class="nav-link" title="Profile" aria-label="Go to Profile">
                                 <i class="fas fa-user-circle" aria-label="Profile"></i>
@@ -173,11 +180,13 @@
                 </div>
             </div>
         </header>
+        <!-- Main Financial Learning content area -->
         <main class="learning-container" style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.08); max-width:900px; margin:5rem auto 2rem auto; padding:2.5rem 2rem;">
             <div class="learning-title" style="font-family:'Merriweather',serif; font-size:2.2rem; color:#2a1f1e; margin-bottom:1.5rem;">
                 Financial Learning for Students
             </div>
             <ul class="learning-list" style="list-style:none; padding:0;">
+                <!-- Learning item 1: YouTube video and description -->
                 <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
                     <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
                         <iframe width="320" height="180" src="https://www.youtube.com/embed/6r3Xb6kQp6w" title="How to Manage Money as a Student | Basic Money Management Tips" frameborder="0" allowfullscreen></iframe>
@@ -188,6 +197,7 @@
                         <a href="https://www.youtube.com/watch?v=6r3Xb6kQp6w" target="_blank">Watch on YouTube</a>
                     </div>
                 </li>
+                <!-- Learning item 2 -->
                 <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
                     <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
                         <iframe width="320" height="180" src="https://www.youtube.com/embed/0nq6FQwzGdY" title="How to Save Money as a Student in India | College Student Budgeting" frameborder="0" allowfullscreen></iframe>
@@ -198,6 +208,7 @@
                         <a href="https://www.youtube.com/watch?v=0nq6FQwzGdY" target="_blank">Watch on YouTube</a>
                     </div>
                 </li>
+                <!-- Learning item 3 -->
                 <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
                     <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
                         <iframe width="320" height="180" src="https://www.youtube.com/embed/4mQG9Wqf1gk" title="Personal Finance for Students | Indian Context" frameborder="0" allowfullscreen></iframe>
@@ -208,6 +219,7 @@
                         <a href="https://www.youtube.com/watch?v=4mQG9Wqf1gk" target="_blank">Watch on YouTube</a>
                     </div>
                 </li>
+                <!-- Learning item 4 -->
                 <li class="learning-item" style="margin-bottom:2rem; display:flex; align-items:flex-start; gap:1.5rem;">
                     <div class="learning-video" style="flex:0 0 320px; max-width:320px;">
                         <iframe width="320" height="180" src="https://www.youtube.com/embed/2yQ6g9A3pIg" title="How to Budget as a Student" frameborder="0" allowfullscreen></iframe>

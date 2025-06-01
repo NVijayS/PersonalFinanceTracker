@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuberaVault - Student Finance Tracker</title>
+    <!-- Font Awesome and Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/KuberaVault_logo.jpg') }}" type="image/jpg">
     <meta name="theme-color" content="#2a1f1e">
@@ -19,7 +22,7 @@
         <div class="decorative-corner bl"></div>
         <div class="decorative-corner br"></div>
         
-        <!-- Main Header with Logo -->
+        <!-- Main Header with Logo and Sidebar Toggle -->
         <header class="main-header">
             <div class="header-container">
                 <div class="logo-container">
@@ -42,45 +45,52 @@
 
         <!-- Main Content - Temple Courtyard -->
         <main class="main-content">
-            <!-- Sidebar -->
+            <!-- Sidebar Navigation -->
             <nav class="sidebar" id="sidebar">
                 <ul class="nav-menu">
+                    <!-- Dashboard link (active) -->
                     <li class="nav-item">
                         <a href="#" class="nav-link active">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
+                    <!-- Transactions link -->
                     <li class="nav-item">
                         <a href="{{ url_for('transactions_page') }}" class="nav-link">
                             <i class="fas fa-exchange-alt"></i>
                             <span>Transactions</span>
                         </a>
                     </li>
+                    <!-- Budget link -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-wallet"></i>
                             <span>Budget</span>
                         </a>
                     </li>
+                    <!-- Financial Learning link -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-book"></i>
                             <span>Financial Learning</span>
                         </a>
                     </li>
+                    <!-- Scholarships & Loans link -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-graduation-cap"></i>
                             <span>Scholarships & Loans</span>
                         </a>
                     </li>
+                    <!-- FAQ link -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-question-circle"></i>
                             <span>FAQ</span>
                         </a>
                     </li>
+                    <!-- Profile link -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-user"></i>
@@ -89,10 +99,11 @@
                     </li>
                 </ul>
             </nav>
+            <!-- Sidebar overlay for mobile -->
             <div class="sidebar-overlay" id="sidebar-overlay"></div>
             <!-- Content Area -->
             <div class="content-area">
-                <!-- Dashboard Card -->
+                <!-- Dashboard Card with stats -->
                 <div class="dashboard-card" style="width: 100%;">
                     <div class="card-header">
                         <h2>Wealth Dashboard</h2>
@@ -108,6 +119,7 @@
 
                     <!-- Stats Overview - Temple Offerings -->
                     <div class="stats-grid">
+                        <!-- Sacred Balance stat -->
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-coins"></i>
@@ -120,6 +132,7 @@
                                 </span>
                             </div>
                         </div>
+                        <!-- Blessings stat -->
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-arrow-up"></i>
@@ -132,6 +145,7 @@
                                 </span>
                             </div>
                         </div>
+                        <!-- Offerings stat -->
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-arrow-down"></i>
@@ -144,6 +158,7 @@
                                 </span>
                             </div>
                         </div>
+                        <!-- Sacred Savings stat -->
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-piggy-bank"></i>
@@ -159,13 +174,14 @@
                     </div>
                 </div>
             </div>
-            <!-- Recent Transactions -->
+            <!-- Recent Transactions Section -->
             <div class="transactions-card">
                 <div class="card-header">
                     <h2>Recent Transactions</h2>
                     <a href="#" class="view-all">View All</a>
                 </div>
                 <div class="transactions">
+                    <!-- Loop through transactions and display each -->
                     {% for transaction in transactions %}
                     <div class="transaction-item">
                         <div class="transaction-icon" style="background: {{ 'rgba(46, 125, 50, 0.5)' if transaction.type == 'income' else 'rgba(198, 40, 40, 0.5)' }}">
@@ -185,15 +201,13 @@
         </main>
     </div>
 
-
-
-    <!-- JavaScript for interactivity -->
+    <!-- JavaScript for sidebar and overlay interactivity -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarToggle = document.getElementById('sidebar-toggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
-            // Open sidebar
+            // Open sidebar on toggle button click
             sidebarToggle.addEventListener('click', function() {
                 sidebar.classList.toggle('open');
                 sidebarOverlay.classList.toggle('visible');
